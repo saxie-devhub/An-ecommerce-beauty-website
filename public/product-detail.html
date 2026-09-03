@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details &amp; Gallery | Aesthetic Girly Gleam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="home-overrides.css" />
+    <link rel="stylesheet" href="product-showcase.css" />
+    <style>
+      .mpesa-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; place-items: center; z-index: 99999; }
+      .mpesa-modal.show { display: grid; }
+      .mpesa-card { background: #fff; border-radius: 28px; padding: 36px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+      .mpesa-logo { width: 140px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="top-note">✨ Free delivery in Kasarani · Lipa Na M-Pesa available on checkout</div>
+
+    <header class="header">
+      <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+      <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="home.html">🏠 Home</a>
+        <a class="active" href="index.html#shop">🛍️ Shop</a>
+        <a href="reviews.html">⭐ Reviews</a>
+        <a href="profile.html">👤 Profile</a>
+      </nav>
+      <div class="header-actions">
+        <a class="cart-link" href="index.html#cart">🛍️ <b id="cartCount">0</b></a>
+        <button class="theme-toggle" type="button">☾</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="product-showcase" id="productShowcaseSection">
+        <!-- 1. Interactive Media Gallery -->
+        <div class="gallery-container">
+          <div class="main-media-viewport" id="mainGalleryViewport">
+            <!-- Main Image / Video Injected dynamically -->
+          </div>
+          <div class="thumbnail-strip" id="thumbnailStrip">
+            <!-- Thumbnails Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- 2. Product Details, Color/Size Variants & Stepper -->
+        <div class="product-details">
+          <span class="product-category-tag" id="productCategoryTag">Skincare</span>
+          <h1 class="product-title" id="productTitle">Hydrocolloid Cute Heart &amp; Star Pimple Patches</h1>
+          
+          <div class="product-price-wrapper">
+            <span class="current-price" id="dynamicProductPrice">KES 350</span>
+            <div id="stockStatusBadge"></div>
+          </div>
+
+          <p id="productDescription" style="color:#6a4e68; line-height:1.6;">
+            Ultra-cute hydrocolloid overnight blemish stickers infused with tea tree oil &amp; salicylic acid to heal spots while looking gorgeous.
+          </p>
+
+          <!-- Color / Edition Selector -->
+          <div class="variant-selector-group">
+            <label class="variant-label">Choose Edition / Color:</label>
+            <div class="variant-options" id="variantOptionsContainer">
+              <!-- Variant pills injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Quantity Stepper & Checkout Actions -->
+          <div class="purchase-controls">
+            <div class="quantity-stepper">
+              <button class="stepper-btn" id="stepMinusBtn" type="button">−</button>
+              <input type="text" class="stepper-input" id="stepperValue" value="1" readonly />
+              <button class="stepper-btn" id="stepPlusBtn" type="button">+</button>
+            </div>
+
+            <button class="btn-add-to-cart" id="addToCartBtn" type="button">🛍️ Add To Cart</button>
+            <button class="btn-wishlist-heart" id="wishlistHeartBtn" type="button" title="Save to Wishlist">♡</button>
+          </div>
+
+          <button id="buyNowMpesaBtn" style="margin-top:10px; width:100%; padding:14px; background:#27ae60; color:#fff; border:0; border-radius:99px; font-weight:700; cursor:pointer; font-size:1rem; box-shadow:0 8px 20px rgba(39,174,96,0.25);">
+            📲 Instant Lipa Na M-Pesa Checkout
+          </button>
+
+          <!-- Gleam Loyalty Points Badge -->
+          <div style="background:#fdf5fc; padding:14px 18px; border-radius:16px; border:1px solid #f6ddee; display:flex; align-items:center; gap:12px; margin-top:8px;">
+            <span style="font-size:1.5rem;">✨</span>
+            <div style="font-size:0.85rem; color:#4b174f;">
+              Earn <strong>+35 Gleam Loyalty Points</strong> with this order for future discounts!
+            </div>
+          </div>
+
+          <!-- Checkpoint Delivery Tracking Timeline -->
+          <div style="margin-top:24px; border-top:2px solid #f9e2f3; padding-top:20px;">
+            <h3 style="font-family:'Playfair Display', serif; color:#4b174f; margin:0 0 12px;">🚚 Real-Time Delivery Checkpoints</h3>
+            <div id="sampleTrackingTimeline"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- M-Pesa STK Prompt Modal -->
+    <div class="mpesa-modal" id="mpesaModal">
+      <div class="mpesa-card">
+        <h2 style="color:#27ae60; margin:0 0 6px;">📲 Lipa Na M-Pesa</h2>
+        <p style="color:#6a4e68; font-size:0.9rem; margin-bottom:20px;">Enter your Safaricom phone number to receive the instant PIN prompt on your phone.</p>
+        
+        <input type="tel" id="mpesaPhoneInput" placeholder="e.g. 0712 345 678" style="width:100%; padding:12px; border:2px solid #e8d4e6; border-radius:14px; font-size:1.1rem; text-align:center; box-sizing:border-box; margin-bottom:16px;" />
+        
+        <button id="sendStkPushBtn" style="width:100%; padding:14px; border:0; border-radius:99px; background:#27ae60; color:#fff; font-weight:700; font-size:1rem; cursor:pointer;">
+          Send M-Pesa PIN Prompt →
+        </button>
+        <p id="mpesaStatusMsg" style="margin-top:12px; font-weight:600; font-size:0.85rem;"></p>
+        
+        <button onclick="document.getElementById('mpesaModal').classList.remove('show')" style="margin-top:12px; background:transparent; border:0; color:#8b6f8a; cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+
+    <script src="site-tools.js"></script>
+    <script src="product-showcase.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function () {
+        // Sample Product Data (with Media Gallery: images + video, and Color Variants)
+        const sampleProduct = {
+          id: "prod_sample_1",
+          name: "Hydrocolloid Cute Heart & Star Pimple Patches",
+          price: 350,
+          category: "Skincare",
+          description: "Ultra-cute hydrocolloid overnight blemish stickers infused with tea tree oil & salicylic acid.",
+          media: [
+            { media_type: "image", url: "/images/patch.jpeg", thumbnail_url: "/images/patch.jpeg" },
+            { media_type: "image", url: "/images/patch-packaging.jpeg", thumbnail_url: "/images/patch-packaging.jpeg" },
+            { media_type: "video", url: "/images/patch-video.mp4", thumbnail_url: "/images/patch-deliveries.jpeg" }
+          ],
+          variants: [
+            { id: "var_1", color: "Pink Hearts", size: "36 Patches", stock_quantity: 25, price_adjustment: 0 },
+            { id: "var_2", color: "Yellow Stars", size: "36 Patches", stock_quantity: 18, price_adjustment: 0 },
+            { id: "var_3", color: "Glitter Holographic", size: "48 Patches", stock_quantity: 4, price_adjustment: 100 }
+          ]
+        };
+
+        // 1. Initialize Media Gallery (Images + Video + Zoom)
+        initProductGallery(sampleProduct.media);
+
+        // 2. Initialize Variants & Stepper
+        initVariantSelector(sampleProduct.variants, sampleProduct.price);
+        initQuantityStepper();
+
+        // 3. Wishlist Heart Toggle
+        document.getElementById('wishlistHeartBtn').addEventListener('click', function() {
+          toggleWishlistHeart(sampleProduct.id, this);
+        });
+
+        // 4. M-Pesa STK Push Trigger Modal
+        document.getElementById('buyNowMpesaBtn').addEventListener('click', () => {
+          document.getElementById('mpesaModal').classList.add('show');
+        });
+
+        document.getElementById('sendStkPushBtn').addEventListener('click', async () => {
+          const phone = document.getElementById('mpesaPhoneInput').value.trim();
+          const status = document.getElementById('mpesaStatusMsg');
+          if (!phone) {
+            status.textContent = "⚠️ Please enter your phone number";
+            status.style.color = "#e74c3c";
+            return;
+          }
+
+          status.textContent = "⏳ Sending STK Prompt to phone...";
+          status.style.color = "#7e39b8";
+
+          triggerMpesaSTKPush(
+            "sample_order_123",
+            phone,
+            (res) => {
+              if (res.paid) {
+                status.textContent = `🎉 Paid! M-Pesa Receipt: ${res.receipt}`;
+                status.style.color = "#27ae60";
+              } else {
+                status.textContent = `📱 Prompt Sent! Enter your M-Pesa PIN on your phone.`;
+                status.style.color = "#27ae60";
+              }
+            },
+            (err) => {
+              status.textContent = `❌ ${err}`;
+              status.style.color = "#e74c3c";
+            }
+          );
+        });
+
+        // 5. Render Checkpoints Sample
+        const sampleCheckpoints = [
+          { timestamp: "Today, 14:30", location: "Kasarani Delivery Hub", status: "Out For Delivery 🚚", description: "Rider dispatched with your pink parcel." },
+          { timestamp: "Today, 10:15", location: "Aesthetic Girly Gleam Studio", status: "Order Packed ✨", description: "Blemish patches and cute stickers packed with love." },
+          { timestamp: "Yesterday, 19:40", location: "Online Shop", status: "Order Confirmed 💖", description: "Payment received via Lipa Na M-Pesa." }
+        ];
+
+        document.getElementById('sampleTrackingTimeline').innerHTML = `
+          <div class="timeline">
+            ${sampleCheckpoints.map(c => `
+              <div class="timeline-checkpoint">
+                <span class="checkpoint-node"></span>
+                <div class="checkpoint-time">📅 ${c.timestamp} · 📍 ${c.location}</div>
+                <div class="checkpoint-status">${c.status}</div>
+                <div class="checkpoint-desc">${c.description}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      });
+    </script>
+</body>
+</html>

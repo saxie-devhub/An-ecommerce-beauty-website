@@ -1,0 +1,10 @@
+node_modules/
+.env
+data/*.json
+user.json
+users.json
+backend/instance/
+backend/__pycache__/
+backend/**/__pycache__/
+*.pyc
+npm-debug.log*
