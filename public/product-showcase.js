@@ -17,7 +17,7 @@ function initProductGallery(mediaItems) {
     .map(
       (m, idx) => `
       <div class="thumbnail-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
-        <img src="${m.thumbnail_url || m.url}" alt="Thumbnail ${idx + 1}" onerror="this.src='/images/patch.jpeg'" />
+        <img src="${m.thumbnail_url || m.url}" alt="Thumbnail ${idx + 1}" onerror="this.onerror=null;this.src='/images/patch.jpeg'" />
         ${m.media_type === 'video' ? '<span class="video-play-badge">▶</span>' : ''}
       </div>`
     )
@@ -72,6 +72,10 @@ function initProductGallery(mediaItems) {
 let currentSelectedVariant = null;
 let currentQuantity = 1;
 let productBasePrice = 0;
+
+function selectedProductQuantity() {
+  return currentQuantity;
+}
 
 function initVariantSelector(variants, basePrice, onVariantChangeCallback) {
   productBasePrice = basePrice;

@@ -51,15 +51,19 @@ function saveCart() { localStorage.setItem('agg-cart', JSON.stringify(cart)); }
 // Put photos and videos in the images folder. Existing products keep working with `image`.
 // To add several files for one product, use: media: [{ file: 'bow.jpg', type: 'image' }, { file: 'bow-video.mp4', type: 'video' }].
 function productMedia(product) {
-  if (product.media?.length) return product.media;
-  return [{ file: product.image, type: product.mediaType || (product.image.endsWith('.mp4') ? 'video' : 'image') }];
+  if (product.media?.length) return product.media.map((media) => ({ ...media, file: media.file || media.url, type: media.type || media.media_type || 'image' }));
+  return [{ file: product.image, type: product.mediaType || ((product.image || '').endsWith('.mp4') ? 'video' : 'image') }];
+}
+
+function mediaUrl(media) {
+  return media.url || (String(media.file).startsWith('/') ? media.file : `/images/${media.file}`);
 }
 
 function mediaMarkup(product, size, media = productMedia(product)[0]) {
-  const mediaPath = `images/${media.file}`;
+  const mediaPath = mediaUrl(media);
   const fallback = `<span class="media-fallback">${product.emoji}</span>`;
   if (media.type === 'video') {
-    return `<video class="media-asset ${size}-media" autoplay muted loop playsinline preload="metadata" onerror="this.remove()"><source src="${mediaPath}" type="video/mp4"></video>${fallback}`;
+    return `<video class="media-asset ${size}-media" muted playsinline preload="metadata" poster="${media.thumbnailUrl || media.thumbnail_url || ''}" onerror="this.remove()"><source src="${mediaPath}" type="video/mp4"></video>${fallback}`;
   }
   return `<img class="media-asset ${size}-media" src="${mediaPath}" alt="${product.name}" onerror="this.remove()">${fallback}`;
 }
@@ -79,6 +83,7 @@ function renderProducts() {
         <span class="category-tag">${product.category}</span>
         <h3>${product.name}</h3>
         <div class="price-row"><span class="price">${product.displayPrice}</span><button class="add-button" data-id="${product.id}" aria-label="Add ${product.name} to cart">+</button></div>
+        <a class="product-detail-link" href="product-detail.html?id=${encodeURIComponent(product.id)}">View details</a>
       </div>
     </article>`).join('');
 }
@@ -89,7 +94,7 @@ function renderCarousel() {
   track.innerHTML = bestsellers.map(product => `
     <article class="showcase-card">
       <div class="showcase-visual" style="--card-bg:${product.color}">${mediaMarkup(product, 'showcase')}</div>
-      <div class="showcase-copy"><p class="eyebrow">Bestseller · ${product.category}</p><h3>${product.name}</h3><p>One of our most-loved little luxuries. Add this pretty pick to your everyday accessory rotation.</p><p class="showcase-price">${product.displayPrice}</p><button class="gallery-link" data-gallery="${product.id}">View gallery</button><button class="button button-dark add-showcase" data-id="${product.id}">Add to bag <span>→</span></button></div>
+      <div class="showcase-copy"><p class="eyebrow">Bestseller · ${product.category}</p><h3>${product.name}</h3><p>One of our most-loved little luxuries. Add this pretty pick to your everyday accessory rotation.</p><p class="showcase-price">${product.displayPrice}</p><button class="gallery-link" data-gallery="${product.id}">View gallery</button><a class="gallery-link" href="product-detail.html?id=${encodeURIComponent(product.id)}">View product details</a><button class="button button-dark add-showcase" data-id="${product.id}">Add to bag <span>→</span></button></div>
     </article>`).join('');
   dots.innerHTML = bestsellers.map((_, index) => `<button data-slide="${index}" class="${index === 0 ? 'active' : ''}" aria-label="Go to bestseller ${index + 1}"></button>`).join('');
   updateSlide();
@@ -101,7 +106,7 @@ function updateSlide() {
 }
 
 function moveSlide(direction) { currentSlide = (currentSlide + direction + bestsellers.length) % bestsellers.length; updateSlide(); resetTimer(); }
-function resetTimer() { clearInterval(carouselTimer); carouselTimer = setInterval(() => { currentSlide = (currentSlide + 1) % bestsellers.length; updateSlide(); }, 5500); }
+function resetTimer() { clearInterval(carouselTimer); }
 
 function addToCart(id) {
   const item = cart.find(product => String(product.id) === String(id));
@@ -135,9 +140,9 @@ function openGallery(productId) {
 function renderGallery() {
   const media = productMedia(galleryProduct);
   const active = media[galleryIndex];
-  const path = `images/${active.file}`;
+  const path = mediaUrl(active);
   galleryMain.innerHTML = active.type === 'video'
-    ? `<video controls autoplay muted loop playsinline preload="metadata"><source src="${path}" type="video/mp4"></video>`
+    ? `<video controls playsinline preload="metadata" poster="${active.thumbnailUrl || active.thumbnail_url || ''}"><source src="${path}" type="video/mp4"></video>`
     : `<img src="${path}" alt="${galleryProduct.name}" onerror="this.replaceWith(Object.assign(document.createElement('p'), {textContent: 'Add ' + '${active.file}' + ' to the images folder to display it.'}))">`;
   galleryThumbs.innerHTML = media.map((item, index) => `<button class="gallery-thumb ${index === galleryIndex ? 'active' : ''}" data-media-index="${index}"><span>${item.type === 'video' ? '▶' : '▣'}</span> ${item.file}</button>`).join('');
 }

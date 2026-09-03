@@ -14,6 +14,12 @@ const DEFAULT_PRODUCTS = [
     description: 'Ultra-cute tea tree & salicylic acid infused hydrocolloid patches for glowing skin.',
     stock: 25,
     imageUrl: '/images/patch.jpeg',
+    media: [
+      { type: 'image', url: '/images/patch.jpeg', thumbnailUrl: '/images/patch.jpeg', alt: 'Heart and star pimple patches' },
+      { type: 'image', url: '/images/patch-packaging.jpeg', thumbnailUrl: '/images/patch-packaging.jpeg', alt: 'Pimple patches packaging' },
+      { type: 'image', url: '/images/patch-deliveries.jpeg', thumbnailUrl: '/images/patch-deliveries.jpeg', alt: 'Pimple patches delivery set' },
+      { type: 'video', url: '/images/patch-video.mp4', thumbnailUrl: '/images/patch-deliveries.jpeg', alt: 'Pimple patches video' }
+    ],
     isActive: true,
     createdAt: new Date().toISOString()
   },
