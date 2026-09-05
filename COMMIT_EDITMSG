@@ -1,0 +1,50 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Changes to be committed:
+#	new file:   .postman/resources.yaml
+#	new file:   backend/app.py
+#	new file:   backend/database/__init__.py
+#	new file:   backend/extensions.py
+#	new file:   backend/make_admin.py
+#	new file:   backend/models.py
+#	new file:   backend/requirements.txt
+#	new file:   backend/routes/__init__.py
+#	new file:   backend/routes/admin.py
+#	new file:   backend/routes/auth.py
+#	new file:   backend/routes/mpesa.py
+#	new file:   backend/routes/orders.py
+#	new file:   backend/routes/products.py
+#	new file:   backend/routes/reviews.py
+#	new file:   backend/routes/tracking.py
+#	new file:   backend/routes/wishlist.py
+#	new file:   backend/services/mpesa_service.py
+#	new file:   backend/test_mysql.py
+#	new file:   backend/utils/email.py
+#	new file:   backend/utils/helpers.py
+#	new file:   backend/utils/mpesa.py
+#	new file:   home.js
+#	deleted:    index.html
+#	new file:   make-admin.js
+#	new file:   postman/globals/workspace.globals.yaml
+#	modified:   public/about.html
+#	modified:   public/admin.css
+#	modified:   public/admin.html
+#	modified:   public/admin.js
+#	modified:   public/auth-status.js
+#	modified:   public/contact.html
+#	modified:   public/home-overrides.css
+#	modified:   public/home.html
+#	modified:   public/index.html
+#	modified:   public/login.html
+#	modified:   public/login.js
+#	modified:   public/product-detail.html
+#	modified:   public/product-detail.js
+#	modified:   public/reviews.html
+#	modified:   public/script.js
+#	modified:   public/signup.js
+#	modified:   public/styles.css
+#	modified:   script.js
+#

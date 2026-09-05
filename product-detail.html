@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Detail | Aesthetic Girly Gleam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/home-overrides.css" />
+    <style>
+        .product-detail-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(75,23,79,0.1);
+        }
+        .product-image-large {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 16px;
+            background: #f5edf5;
+        }
+        .product-image-large-placeholder {
+            width: 100%;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 6rem;
+            background: #f5edf5;
+        }
+        .product-info h1 {
+            font-family: "Playfair Display", serif;
+            color: #4b174f;
+            margin: 0 0 8px;
+            font-size: 2.2rem;
+        }
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d5488c;
+            margin: 12px 0;
+        }
+        .product-description {
+            color: #6a4e68;
+            line-height: 1.8;
+            margin: 16px 0;
+            font-size: 1rem;
+        }
+        .product-category {
+            display: inline-block;
+            background: #f5edf5;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            color: #4b174f;
+            font-weight: 600;
+        }
+        .product-stock {
+            display: inline-block;
+            background: #e8f5e9;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            color: #2e7d32;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .product-stock.low {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .product-stock.out {
+            background: #fbe9e7;
+            color: #c62828;
+        }
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0 16px;
+        }
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .color-swatch:hover {
+            transform: scale(1.15);
+            border-color: #d5488c;
+        }
+        .color-swatch.active {
+            border-color: #d5488c;
+            box-shadow: 0 0 0 3px rgba(213,72,140,0.3);
+        }
+        .color-swatch .stock-badge {
+            position: absolute;
+            bottom: -6px;
+            right: -6px;
+            background: #4b174f;
+            color: #fff;
+            font-size: 0.55rem;
+            padding: 2px 6px;
+            border-radius: 99px;
+            font-weight: 700;
+        }
+        .add-to-cart-btn {
+            padding: 16px 40px;
+            border: 0;
+            border-radius: 99px;
+            background: linear-gradient(135deg, #7e39b8, #d5488c);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 16px;
+            width: 100%;
+        }
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(126,57,184,0.3);
+        }
+        .add-to-cart-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #8b6f8a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            color: #d5488c;
+        }
+        .product-extra {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        .product-extra-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #6a4e68;
+        }
+        .product-extra-item span {
+            font-size: 1.2rem;
+        }
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 30px;
+            }
+            .product-image-large {
+                height: 280px;
+            }
+            .product-image-large-placeholder {
+                height: 280px;
+                font-size: 4rem;
+            }
+            .product-info h1 {
+                font-size: 1.8rem;
+            }
+            .color-swatch {
+                width: 35px;
+                height: 35px;
+            }
+        }
+        html[data-theme="dark"] .product-detail-container {
+            background: #2c1730;
+        }
+        html[data-theme="dark"] .product-info h1 {
+            color: #fff0fb;
+        }
+        html[data-theme="dark"] .product-description {
+            color: #f1cae6;
+        }
+        html[data-theme="dark"] .product-extra-item {
+            color: #c99cc4;
+        }
+        html[data-theme="dark"] .product-category {
+            background: #3b1c3d;
+            color: #c99cc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-note">✨ Nairobi pickup available · DM us for the cutest finds</div>
+
+    <header class="header">
+        <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+        <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+        <nav class="main-nav" id="mainNav">
+            <a href="home.html">🏠 Home</a>
+            <a href="index.html#shop">🛍️ Shop</a>
+            <a href="about.html">💖 About</a>
+            <a href="reviews.html">⭐ Reviews</a>
+            <a href="contact.html">📧 Contact</a>
+            <a href="profile.html">👤 Profile</a>
+        </nav>
+        <div class="header-actions">
+            <a class="cart-link" href="index.html#cart">🛍️ <b id="cartCount">0</b></a>
+            <div class="site-controls">
+                <label class="language-picker">
+                    <select class="language-select">
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="sw">🇰🇪 SW</option>
+                        <option value="sheng">🔥 Sheng</option>
+                    </select>
+                </label>
+                <button class="theme-toggle" type="button">☾</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-detail-container" id="productDetail">
+            <div>
+                <a href="index.html#shop" class="back-btn">← Back to Shop</a>
+                <div id="productImageContainer">
+                    <img id="productImage" class="product-image-large" src="" alt="Product" />
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <span class="product-category" id="productCategory">Category</span>
+                    <span class="product-stock" id="productStockBadge">In Stock</span>
+                </div>
+            </div>
+            <div class="product-info">
+                <h1 id="productName">Product Name</h1>
+                <div class="product-price" id="productPrice">KES 0</div>
+                
+                <div class="product-extra">
+                    <div class="product-extra-item">
+                        <span>📦</span>
+                        <span id="productStockText">Stock: 0 pieces</span>
+                    </div>
+                    <div class="product-extra-item">
+                        <span>⭐</span>
+                        <span id="productRating">4.5 ★ (12 reviews)</span>
+                    </div>
+                </div>
+
+                <p class="product-description" id="productDescription">Product description goes here.</p>
+                
+                <div>
+                    <strong style="color:#4b174f;">Available Colors:</strong>
+                    <div class="color-options" id="productColors"></div>
+                </div>
+
+                <button class="add-to-cart-btn" id="addToCartBtn">Add to Cart →</button>
+                <p style="font-size:0.75rem;color:#8b6f8a;margin-top:8px;">✓ Free pickup in Nairobi • ✓ Quality guaranteed</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+            <p>Small details, major sparkle.</p>
+        </div>
+        <div>
+            <h3>Quick links</h3>
+            <a href="index.html#shop">Shop</a>
+            <a href="about.html">About</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </footer>
+    <div class="copyright">© 2026 Aesthetic Girly Gleam · Made with ♡ in Kenya</div>
+
+    <script src="/site-tools.js"></script>
+    <script src="/auth-status.js"></script>
+    <script src="/product-detail.js"></script>
+</body>
+</html>

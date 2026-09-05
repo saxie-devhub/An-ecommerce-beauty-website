@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="api-config.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aesthetic Girly Gleam — affordable accessories and skincare in Kenya." />
+    <title>Aesthetic Girly Gleam | Baddie Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="home-overrides.css" />
+  </head>
+  <body>
+    <div class="top-note" data-i18n="topNote">✨ Nairobi pickup available · DM us for the cutest finds</div>
+    <header class="header">
+      <a class="logo" href="#home"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+      <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+      <nav class="main-nav" id="mainNav">
+       <a class="active" href="home.html">🏠 Home</a>
+       <a href="index.html#shop">🛍️ Shop</a>
+       <a href="about.html">💖 About</a>
+       <a href="reviews.html">⭐ Reviews</a>
+       <a href="contact.html">📧 Contact</a>
+      <a href="profile.html">👤 Profile</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">📊 Admin</a>
+</nav>
+      <div class="header-actions"><a class="cart-link" href="index.html#cart" aria-label="Open cart">🛍️ <b id="cartCount">0</b></a><div class="site-controls"><label class="language-picker"><span class="sr-only">Language</span><select class="language-select" aria-label="Choose language"><option value="en">EN</option><option value="sw">SW</option></select></label><button class="theme-toggle" type="button" aria-label="Switch to dark mode">☾</button></div></div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy"><p class="kicker" data-i18n="heroKicker">Kenyan girl-owned · made to shine</p><h1 data-i18n="heroTitle">✨ BADDIE COLLECTION<br /><span>Aesthetic Girly Gleam</span> ✨</h1><p class="collection-chip" data-i18n="collection">The <strong>Baddie Collection</strong> · just for you</p><p data-i18n="heroText">Affordable accessories &amp; skincare for the modern girl. Your baddie era starts with the little details.</p><div class="hero-buttons"><a class="button primary" href="index.html#shop" data-i18n="shopNow">Shop Now <b>→</b></a><a class="button soft" href="#categories" data-i18n="explore">Explore styles</a></div><div class="hero-promise" data-i18n="promise"><span>✦</span> Cute finds · Kind prices · Big energy</div></div>
+        <div class="hero-visual"><div class="circle circle-a"></div><div class="circle circle-b"></div><button class="photo-placeholder" id="photoUploadButton" type="button" aria-label="Add your profile photo"><img id="profilePhotoPreview" alt="Your profile photo" hidden /><span class="photo-upload-icon" aria-hidden="true">+</span><small class="photo-upload-label">Add your photo</small></button><input class="photo-input" id="profilePhotoInput" type="file" accept="image/*" aria-label="Choose a profile photo" /><div class="hero-card card-two" aria-hidden="true">✦<small>shine<br />bright</small></div><span class="spark spark-a" aria-hidden="true">✦</span><span class="spark spark-b" aria-hidden="true">✧</span></div>
+      </section>
+
+      <section class="categories section" id="categories"><div class="heading"><div><p class="kicker">Shop your mood</p><h2>What are you feeling today?</h2></div><a href="index.html#shop">View all products →</a></div><div class="category-grid">
+        <a href="index.html#shop" data-category="Skincare" class="category-card pink"><span>💖</span><b>Skincare</b><small>Patch it up</small></a>
+        <a href="index.html#shop" data-category="Hair Accessories" class="category-card lilac"><span>🎀</span><b>Hair</b><small>Make it cute</small></a>
+        <a href="index.html#shop" data-category="Jewelry" class="category-card gold"><span>💍</span><b>Jewelry</b><small>Add sparkle</small></a>
+        <a href="index.html#shop" data-category="Lashes" class="category-card peach"><span>◡</span><b>Lashes</b><small>Bat those eyes</small></a>
+        <a href="index.html#shop" data-category="Bags" class="category-card purple"><span>👜</span><b>Bags</b><small>Carry confidence</small></a>
+        <a href="index.html#shop" data-category="Accessories" class="category-card rose"><span>〰</span><b>Accessories</b><small>Finish the look</small></a>
+      </div></section>
+
+      <section class="bestsellers section"><div class="heading"><div><p class="kicker">Picked for you</p><h2>⭐ Best Sellers</h2><p>Our customers’ favourites</p></div><a href="index.html#shop">Shop all →</a></div><div class="best-grid" id="bestGrid"></div></section>
+
+      <section class="about section" id="about"><div class="about-visual"><span>✦</span><p>made for<br /><i>your glow</i></p></div><div class="about-copy"><p class="kicker">Our story</p><h2>A little sparkle goes a long way.</h2><p>Aesthetic Girly Gleam is a Kenyan girl-owned brand bringing you the sweet little things that make getting ready feel special—from shiny jewelry and cute bags to skincare and hair essentials.</p><p>We believe your baddie collection should be fun, affordable, and entirely you.</p><div class="section-actions"><a href="#home" class="back-button">← Back home</a><a href="#contact" class="text-link">Say hi to us →</a></div></div></section>
+
+      <section class="reviews-preview section"><div class="center-heading"><p class="kicker">The gleam girls say it best</p><h2>Read our customer reviews</h2><p>See why the Gleam girls keep coming back.</p><a class="button primary" href="reviews.html">View reviews <b>→</b></a></div></section>
+
+      <section class="info-strip section" id="payments"><article><span>💳</span><div><b>Simple payments</b><p>M-Pesa and cash on pickup</p></div></article><article><span>📦</span><div><b>Easy ordering</b><p>Add to cart, then check out</p></div></article><article id="profile.html"><span>♡</span><div><b>Your glow profile</b></div></article></section>
+    </main>
+
+    <footer id="contact"><div class="footer-brand"><a class="logo" href="#home"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a><p>Small details, major sparkle.</p><p>📍 Located in Kasarani online shop</p><p>📲 DM to order on WhatsApp: <a href="https://wa.me/254728091300" target="_blank" rel="noreferrer">+254 728091300</a></p></div><div><h3>Quick links</h3><a href="index.html#shop">Shop</a><a href="#about">About</a><a href="reviews.html">Reviews</a><a href="#payments">Payments</a></div><div><h3>Stay connected</h3><a href="https://www.tiktok.com/@aesthetic.girly.g">TikTok ↗</a><a href="https://whatsapp.com/channel/0029Vb8N1IQAojYkx93QXi3c">Whatsapp channel ↗</a><a href="https://wa.me/254728091300" target="_blank" rel="noreferrer">WhatsApp ↗</a></div></footer>
+    <div class="copyright">© 2026 Aesthetic Girly Gleam · Made with ♡ in Kenya</div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="site-tools.js"></script><script src="home.js"></script>
+    <script src="site-tools.js"></script><script src="auth-status.js"></script>
+  </body>
+</html>

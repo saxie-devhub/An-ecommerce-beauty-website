@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Connection</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fdf0f7;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(75, 23, 79, 0.1);
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #4b174f;
+        }
+        button {
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #7e39b8, #d5488c);
+            color: white;
+            border: none;
+            border-radius: 99px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        #result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #f5edf5;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { color: #2ecc71; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔗 Backend Connection Test</h1>
+        <p>This will test if your frontend can connect to the Python backend.</p>
+        
+        <button onclick="testBackend()">Test Connection</button>
+        <button onclick="testLogin()" style="margin-left:10px;background:linear-gradient(135deg,#4b174f,#7e39b8);">Test Login</button>
+        
+        <div id="result">Click "Test Connection" to start...</div>
+    </div>
+
+    <script>
+        const API_BASE = `${window.location.origin}/api`;
+
+        async function testBackend() {
+            const result = document.getElementById('result');
+            result.textContent = '⏳ Testing connection to backend...';
+            result.className = '';
+            
+            try {
+                const response = await fetch(`${API_BASE}/test`);
+                const data = await response.json();
+                result.innerHTML = `✅ <span class="success">SUCCESS!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                result.className = 'success';
+            } catch (error) {
+                result.innerHTML = `❌ <span class="error">FAILED!</span>\n\nError: ${error.message}\n\nMake sure the backend is running on port 5000.`;
+                result.className = 'error';
+            }
+        }
+
+        async function testLogin() {
+            const result = document.getElementById('result');
+            result.textContent = '⏳ Testing login...';
+            result.className = '';
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: 'test@test.com', 
+                        password: 'password123' 
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `✅ <span class="success">LOGIN SUCCESS!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                    result.className = 'success';
+                } else {
+                    result.innerHTML = `⚠️ <span class="error">Login failed (expected if no user exists)</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                    result.className = 'error';
+                }
+            } catch (error) {
+                result.innerHTML = `❌ <span class="error">FAILED!</span>\n\nError: ${error.message}`;
+                result.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>

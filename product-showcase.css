@@ -1,0 +1,328 @@
+/* public/product-showcase.css - Advanced Product Gallery, Stepper, and Checkout Styles */
+
+.product-showcase {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ============================================
+   1. ADVANCED MEDIA GALLERY & ZOOM
+   ============================================ */
+.gallery-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-media-viewport {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fdf5fc;
+  border: 2px solid #f6ddee;
+  box-shadow: 0 15px 40px rgba(75, 23, 79, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
+}
+
+.main-media-viewport img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.main-media-viewport.zoomed img {
+  transform: scale(1.6);
+}
+
+.main-media-viewport video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.thumbnail-strip {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.thumbnail-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.thumbnail-item.active {
+  border-color: #d5488c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(213, 72, 140, 0.3);
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-play-badge {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 28px;
+  height: 28px;
+  background: rgba(213, 72, 140, 0.9);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+/* ============================================
+   2. PRODUCT DETAILS, VARIANTS & STEPPER
+   ============================================ */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-category-tag {
+  display: inline-block;
+  background: #fbf0f8;
+  color: #7e39b8;
+  padding: 4px 14px;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #4b174f;
+  margin: 0;
+}
+
+.product-price-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.current-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #d5488c;
+}
+
+.variant-selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.variant-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #4b174f;
+}
+
+.variant-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.variant-pill {
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 2px solid #e8d4e6;
+  background: #fff;
+  color: #4b174f;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.variant-pill:hover,
+.variant-pill.active {
+  border-color: #d5488c;
+  background: #fdf0f7;
+  color: #d5488c;
+  font-weight: 700;
+}
+
+.variant-pill.out-of-stock {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Quantity Stepper */
+.purchase-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.quantity-stepper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e8d4e6;
+  border-radius: 99px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.stepper-btn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: #4b174f;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: grid;
+  place-items: center;
+}
+
+.stepper-btn:hover {
+  background: #fdf0f7;
+  color: #d5488c;
+}
+
+.stepper-input {
+  width: 48px;
+  text-align: center;
+  border: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #4b174f;
+  background: transparent;
+  outline: none;
+}
+
+.btn-add-to-cart {
+  flex: 1;
+  min-width: 180px;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #7e39b8, #d5488c);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(126, 57, 184, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-add-to-cart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(126, 57, 184, 0.4);
+}
+
+.btn-wishlist-heart {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #ecd2e8;
+  background: #fff;
+  color: #d5488c;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+}
+
+.btn-wishlist-heart.active {
+  background: #d5488c;
+  color: #fff;
+  border-color: #d5488c;
+}
+
+/* ============================================
+   3. CHECKPOINT TIMELINE STYLES
+   ============================================ */
+.timeline {
+  position: relative;
+  padding: 20px 0 20px 32px;
+  border-left: 3px solid #f6ddee;
+  margin-left: 10px;
+}
+
+.timeline-checkpoint {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-checkpoint:last-child {
+  margin-bottom: 0;
+}
+
+.checkpoint-node {
+  position: absolute;
+  left: -40px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d5488c;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #f6ddee;
+}
+
+.checkpoint-time {
+  font-size: 0.75rem;
+  color: #8b6f8a;
+  font-weight: 600;
+}
+
+.checkpoint-status {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4b174f;
+  margin: 2px 0;
+}
+
+.checkpoint-desc {
+  font-size: 0.85rem;
+  color: #6a4e68;
+}
+
+@media (max-width: 900px) {
+  .product-showcase {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

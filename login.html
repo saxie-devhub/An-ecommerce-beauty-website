@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Log in to your Aesthetic Girly Gleam account." />
+    <title>Log In | Aesthetic Girly Gleam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="top-note">✨ Nairobi pickup available · DM us for the cutest finds</div>
+
+    <header class="header">
+      <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+      <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="home.html">🏠 Home</a>
+        <a href="index.html#shop">🛍️ Shop</a>
+        <a href="about.html">💖 About</a>
+        <a href="reviews.html">⭐ Reviews</a>
+        <a href="contact.html">📧 Contact</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="admin.html" id="adminNavLink" style="display:none;">📊 Admin</a>
+      </nav>
+      <div class="header-actions">
+        <a class="cart-link" href="index.html#cart" aria-label="Open cart">🛍️ <b id="cartCount">0</b></a>
+        <div class="site-controls">
+          <label class="language-picker">
+            <span class="sr-only">Language</span>
+            <select class="language-select" aria-label="Choose language">
+              <option value="en">🇬🇧 EN</option>
+              <option value="sw">🇰🇪 SW</option>
+            </select>
+          </label>
+          <button class="theme-toggle" type="button" aria-label="Switch to dark mode">☾</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-shell">
+        <div class="auth-art" aria-hidden="true">
+          <span class="blob blob-one"></span>
+          <span class="blob blob-two"></span>
+          <span class="hero-star star-one">✦</span>
+          <span class="hero-star star-two">✧</span>
+          <div class="auth-art-copy">💖<small>welcome<br />back</small></div>
+        </div>
+
+        <div class="auth-card">
+          <p class="kicker">Aesthetic Girly Gleam</p>
+          <h1>Welcome Back ✨</h1>
+          <p class="auth-subtitle">Log in to view your orders, leave reviews, and sparkle</p>
+
+          <form id="loginForm" class="auth-form" novalidate>
+            <div class="field">
+              <span class="field-icon" aria-hidden="true">✉</span>
+              <input type="email" id="loginEmail" name="email" placeholder="Email address" autocomplete="email" required />
+            </div>
+
+            <div class="field">
+              <span class="field-icon" aria-hidden="true">🔒</span>
+              <input type="password" id="loginPassword" name="password" placeholder="Password (min. 8 characters)" autocomplete="current-password" required />
+              <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">👁</button>
+            </div>
+
+            <div class="auth-row">
+              <label class="remember">
+                <input type="checkbox" id="rememberMe" checked />
+                <span>Remember me</span>
+              </label>
+              <a href="#" class="forgot-link" onclick="alert('Please reach out on WhatsApp (+254 728 091 300) to reset your password.')">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="auth-submit" id="loginSubmitBtn">
+              <span class="submit-label">Log In</span>
+              <span class="submit-arrow">→</span>
+              <span class="submit-spinner"></span>
+            </button>
+          </form>
+
+          <p class="auth-status" id="authStatus" role="status" aria-live="polite"></p>
+          <p class="auth-trust">🔒 Secure 256-bit encrypted authentication</p>
+
+          <p class="auth-switch">Don't have an account yet? <a href="signup.html">Create an Account ✨</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="footer-brand">
+        <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+        <p>Small details, major sparkle.</p>
+      </div>
+      <div>
+        <h3>Quick links</h3>
+        <a href="index.html#shop">Shop</a>
+        <a href="about.html">About</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+    <div class="copyright">© 2026 Aesthetic Girly Gleam · Made with ♡ in Kenya</div>
+
+    <script src="site-tools.js"></script>
+    <script src="login.js"></script>
+  </body>
+</html>
