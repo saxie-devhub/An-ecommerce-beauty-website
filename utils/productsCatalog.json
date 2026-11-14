@@ -1,0 +1,912 @@
+[
+  {
+    "id": 1,
+    "name": "Pimple Patches (Heart & Star)",
+    "price": 150,
+    "displayPrice": "@KES 150",
+    "category": "Skincare",
+    "image": "patch.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/patch.jpeg",
+        "thumbnailUrl": "/images/patch.jpeg",
+        "alt": "Pimple Patches (Heart & Star)"
+      },
+      {
+        "type": "image",
+        "url": "/images/patch-deliveries.jpeg",
+        "thumbnailUrl": "/images/patch-deliveries.jpeg",
+        "alt": "Pimple Patches (Heart & Star)"
+      },
+      {
+        "type": "image",
+        "url": "/images/patch-packaging.jpeg",
+        "thumbnailUrl": "/images/patch-packaging.jpeg",
+        "alt": "Pimple Patches (Heart & Star)"
+      },
+      {
+        "type": "video",
+        "url": "/images/patch-heart-video.mp4",
+        "thumbnailUrl": "/images/patch-heart-video.mp4",
+        "alt": "Pimple Patches (Heart & Star)"
+      }
+    ],
+    "emoji": "💖",
+    "color": "#e937a8",
+    "colors": [
+      "Pink",
+      "Clear",
+      "Yellow",
+      "Black",
+      "Purple",
+      "Green",
+      "Blue"
+    ],
+    "stock": 20,
+    "imageUrl": "/images/patch.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "name": "Pimple Patches (Stars)",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Skincare",
+    "image": "patch-stars.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/patch-stars.jpeg",
+        "thumbnailUrl": "/images/patch-stars.jpeg",
+        "alt": "Pimple Patches (Stars)"
+      },
+      {
+        "type": "image",
+        "url": "/images/patch-deliveries.jpeg",
+        "thumbnailUrl": "/images/patch-deliveries.jpeg",
+        "alt": "Pimple Patches (Stars)"
+      },
+      {
+        "type": "image",
+        "url": "/images/patch-packaging.jpeg",
+        "thumbnailUrl": "/images/patch-packaging.jpeg",
+        "alt": "Pimple Patches (Stars)"
+      },
+      {
+        "type": "video",
+        "url": "/images/patch-video.mp4",
+        "thumbnailUrl": "/images/patch-video.mp4",
+        "alt": "Pimple Patches (Stars)"
+      }
+    ],
+    "emoji": "⭐",
+    "color": "#f8d5eb",
+    "colors": [
+      "Pink",
+      "Clear",
+      "Yellow",
+      "Black",
+      "Purple",
+      "Green",
+      "Blue"
+    ],
+    "stock": 20,
+    "imageUrl": "/images/patch-stars.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "name": "Hair Bows",
+    "price": 150,
+    "displayPrice": "@KES 150",
+    "category": "Hair Accessories",
+    "image": "hairbow.jpeg",
+    "emoji": "🎀",
+    "color": "#ecd9f4",
+    "colors": [
+      "Pink",
+      "white",
+      "Black",
+      "Purple",
+      "Black",
+      "Red"
+    ],
+    "stock": 20,
+    "imageUrl": "/images/hairbow.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "name": "Hair Clips",
+    "price": 70,
+    "displayPrice": "From @KES 70",
+    "category": "Hair Accessories",
+    "image": "hairclip.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/hairclip-1.jpeg",
+        "thumbnailUrl": "/images/hairclip-1.jpeg",
+        "alt": "Hair Clips"
+      },
+      {
+        "type": "image",
+        "url": "/images/hairclip-2.jpeg",
+        "thumbnailUrl": "/images/hairclip-2.jpeg",
+        "alt": "Hair Clips"
+      },
+      {
+        "type": "image",
+        "url": "/images/hairclip-3.jpeg",
+        "thumbnailUrl": "/images/hairclip-3.jpeg",
+        "alt": "Hair Clips"
+      },
+      {
+        "type": "image",
+        "url": "/images/hairclip-4.jpeg",
+        "thumbnailUrl": "/images/hairclip-4.jpeg",
+        "alt": "Hair Clips"
+      },
+      {
+        "type": "image",
+        "url": "/images/hairclip-5.jpeg",
+        "thumbnailUrl": "/images/hairclip-5.jpeg",
+        "alt": "Hair Clips"
+      },
+      {
+        "type": "video",
+        "url": "/images/hairclip-video.mp4",
+        "thumbnailUrl": "/images/hairclip-video.mp4",
+        "alt": "Hair Clips"
+      }
+    ],
+    "emoji": "✨",
+    "color": "#e6197c",
+    "colors": [
+      "Silver",
+      "Gold",
+      "Black",
+      "white"
+    ],
+    "stock": 20,
+    "imageUrl": "/images/hairclip.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 5,
+    "name": "Edge Brush",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Hair Accessories",
+    "image": "Edgebrush.jpeg",
+    "emoji": "🪮",
+    "color": "#e2d7fa",
+    "colors": [
+      "Pink",
+      "Green",
+      "Black",
+      "Purple",
+      "Black",
+      "Blue"
+    ],
+    "stock": 15,
+    "imageUrl": "/images/Edgebrush.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Edgebrush.jpeg",
+        "thumbnailUrl": "/images/Edgebrush.jpeg",
+        "alt": "Edge Brush"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "id": 6,
+    "name": "Satin Scrunchies",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Hair Accessories",
+    "image": "scrunchie.jpeg",
+    "emoji": "🩷",
+    "color": "#f4d2df",
+    "colors": [
+      "Pink",
+      "white",
+      "Black",
+      "Purple",
+      "Black",
+      "Red"
+    ],
+    "stock": 25,
+    "imageUrl": "/images/scrunchie.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 7,
+    "name": "Necklaces",
+    "price": 100,
+    "displayPrice": "From @KES 100",
+    "category": "Jewelry",
+    "image": "necklace.jpeg",
+    "emoji": "📿",
+    "color": "#eee2be",
+    "colors": [
+      "Gold",
+      "Silver",
+      "Rose Gold",
+      "Black"
+    ],
+    "stock": 20,
+    "designs": [
+      {
+        "name": "Butterfly Pendant",
+        "price": 100,
+        "image": "/images/necklace-butterfly.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-butterfly.jpeg",
+            "type": "image"
+          },
+          {
+            "file": "/images/necklace-butterfly-2.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 3,
+        "color": "silver",
+        "description": "Dainty butterfly pendant necklace"
+      },
+      {
+        "name": "Moon Pendant",
+        "price": 100,
+        "image": "/images/necklace-moon.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-moon.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 1,
+        "color": "silver",
+        "description": "Sweet Moon pendant necklace"
+      },
+      {
+        "name": "Layered Chain",
+        "price": 100,
+        "image": "/images/necklace-layered.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-layered.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 1,
+        "color": "silver",
+        "description": "Trendy layered chain necklace"
+      },
+      {
+        "name": "Pearl Chain",
+        "price": 100,
+        "image": "/images/necklace-pearl.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-pearl.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 2,
+        "color": "silver",
+        "description": "Trendy pearl chain necklace"
+      },
+      {
+        "name": "Round-Beaded Chain",
+        "price": 100,
+        "image": "/images/necklace-round-beaded.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-round-beaded.jpeg",
+            "type": "image"
+          },
+          {
+            "file": "/images/necklace-round-beaded-2.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 2,
+        "color": "silver",
+        "description": "Trendy round-beaded chain necklace"
+      },
+      {
+        "name": "Star Chain",
+        "price": 100,
+        "image": "/images/necklace-star.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-star.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 1,
+        "color": "silver",
+        "description": "Trendy star chain necklace"
+      },
+      {
+        "name": "Heart Chain",
+        "price": 100,
+        "image": "/images/necklace-heart.jpeg",
+        "media": [
+          {
+            "file": "/images/necklace-heart.jpeg",
+            "type": "image"
+          }
+        ],
+        "stock": 1,
+        "color": "silver",
+        "description": "Trendy heart chain necklace"
+      }
+    ],
+    "imageUrl": "/images/necklace.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 8,
+    "name": "Anklets",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Jewelry",
+    "image": "anklet.jpeg",
+    "emoji": "💫",
+    "color": "#e7ddf8",
+    "stock": 30,
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold",
+      "Black"
+    ],
+    "imageUrl": "/images/anklet.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 9,
+    "name": "Earrings",
+    "price": 20,
+    "displayPrice": "From @KES 20",
+    "category": "Jewelry",
+    "image": "earrings.jpeg",
+    "emoji": "🌸",
+    "color": "#f8ddea",
+    "stock": 25,
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold",
+      "Black"
+    ],
+    "imageUrl": "/images/earrings.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 10,
+    "name": "Statement Earrings",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Jewelry",
+    "image": "statement-earrings.jpeg",
+    "emoji": "✿",
+    "color": "#f4d5f1",
+    "stock": 15,
+    "colors": [
+      "Gold"
+    ],
+    "imageUrl": "/images/statement-earrings.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 11,
+    "name": "Nose Ring",
+    "price": 150,
+    "displayPrice": "@KES 150",
+    "category": "Jewelry",
+    "image": "NOSERING.jpeg",
+    "emoji": "◌",
+    "color": "#e7dcba",
+    "stock": 10,
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold",
+      "Black"
+    ],
+    "imageUrl": "/images/NOSERING.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/NOSERING.jpeg",
+        "thumbnailUrl": "/images/NOSERING.jpeg",
+        "alt": "Nose Ring"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "id": 12,
+    "name": "Septum Ring",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Jewelry",
+    "image": "septum.jpeg",
+    "emoji": "◍",
+    "color": "#efd9ee",
+    "stock": 5,
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold",
+      "Black"
+    ],
+    "imageUrl": "/images/septum.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 13,
+    "name": "Eyelash Clusters",
+    "price": 200,
+    "displayPrice": "From @KES 200",
+    "category": "Lashes",
+    "image": "clusters.jpeg",
+    "emoji": "◡",
+    "color": "#eadff2",
+    "stock": 10,
+    "colors": [
+      "Black"
+    ],
+    "imageUrl": "/images/clusters.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 14,
+    "name": "Strip Lashes",
+    "price": 100,
+    "displayPrice": "@KES 100",
+    "category": "Lashes",
+    "image": "striplashes.jpeg",
+    "emoji": "〰",
+    "color": "#f9dce6",
+    "stock": 20,
+    "colors": [
+      "Black"
+    ],
+    "imageUrl": "/images/striplashes.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 15,
+    "name": "Shoulder Bags",
+    "price": 450,
+    "displayPrice": "From @KES 450",
+    "category": "Bags",
+    "image": "bag.jpeg",
+    "emoji": "👜",
+    "color": "#e7d4f0",
+    "stock": 20,
+    "colors": [
+      "Pink",
+      "Green",
+      "Black",
+      "White",
+      "Brown",
+      "Beige",
+      "Orange"
+    ],
+    "imageUrl": "/images/bag.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 16,
+    "name": "Headbands",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Accessories",
+    "image": "headband.jpeg",
+    "emoji": "〰",
+    "color": "#f7d6e2",
+    "stock": 18,
+    "colors": [
+      "Pink",
+      "Green",
+      "Black",
+      "White",
+      "Brown",
+      "Beige",
+      "Orange"
+    ],
+    "imageUrl": "/images/headband.jpeg",
+    "media": [],
+    "isActive": true
+  },
+  {
+    "id": 17,
+    "name": "Temporary Tattoos",
+    "price": 100,
+    "displayPrice": "From @KES 100",
+    "category": "Tattoos",
+    "image": "Temporary Tattoos.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Temporary Tattoos.jpeg",
+        "thumbnailUrl": "/images/Temporary Tattoos.jpeg",
+        "alt": "Temporary Tattoos"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#f5e6f0",
+    "colors": [
+      "Butterfly",
+      "Flower",
+      "Star",
+      "Heart",
+      "Moon",
+      "Snake"
+    ],
+    "stock": 50,
+    "description": "Cute temporary tattoos that last 3-7 days. Easy to apply, waterproof, and skin-safe.",
+    "imageUrl": "/images/Temporary Tattoos.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 18,
+    "name": "Colored Temporary Tattoos",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Tattoos",
+    "image": "Coloured Temporary Tattoos.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Coloured Temporary Tattoos.jpeg",
+        "thumbnailUrl": "/images/Coloured Temporary Tattoos.jpeg",
+        "alt": "Colored Temporary Tattoos"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#f5e6f0",
+    "colors": [
+      "Butterfly",
+      "Flower",
+      "Star",
+      "Heart",
+      "Moon",
+      "Snake"
+    ],
+    "stock": 20,
+    "description": "Cute temporary tattoos that last 3-7 days. Easy to apply, waterproof, and skin-safe.",
+    "imageUrl": "/images/Coloured Temporary Tattoos.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 19,
+    "name": "Bath-Gloves",
+    "price": 100,
+    "displayPrice": "From @KES 100",
+    "category": "Skincare",
+    "image": "Bath-Gloves.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Bath-Gloves.jpeg",
+        "thumbnailUrl": "/images/Bath-Gloves.jpeg",
+        "alt": "Bath-Gloves"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#f5e6f0",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 10,
+    "description": "Cute bathing gloves , easy to use and convient to use.It is made of high quality material and it is durable.",
+    "imageUrl": "/images/Bath-Gloves.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 20,
+    "name": "Wet wipes ",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Skincare",
+    "image": "Wet wipes.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Wet wipes.jpeg",
+        "thumbnailUrl": "/images/Wet wipes.jpeg",
+        "alt": "Wet wipes "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#f5e6f0",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Yellow"
+    ],
+    "stock": 10,
+    "description": "Cute wet wipes that are easy to use and skin-safe.",
+    "imageUrl": "/images/Wet wipes.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 21,
+    "name": "Eye mask",
+    "price": 70,
+    "displayPrice": "From @KES 70",
+    "category": "Skincare",
+    "image": "Eye mask.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Eye mask.jpeg",
+        "thumbnailUrl": "/images/Eye mask.jpeg",
+        "alt": "Eye mask"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#dd1e9d",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 20,
+    "description": "Cute eye mask that is skin-safe, removes dark eyes and dark circles.Used to help hydrate the dark circles and brighten the eye  bankss.",
+    "imageUrl": "/images/Eye mask.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 22,
+    "name": "Lip mask",
+    "price": 70,
+    "displayPrice": "From @KES 70",
+    "category": "Lip care",
+    "image": "Lip mask.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Lip mask.jpeg",
+        "thumbnailUrl": "/images/Lip mask.jpeg",
+        "alt": "Lip mask"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#dd1e9d",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 20,
+    "description": "Cute lip mask that is skin-safe, removes dark lips and moistures the lips.Used to help hydrate the lips and brighten the lip and avoid dry ,cracky lips.",
+    "imageUrl": "/images/Lip mask.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 23,
+    "name": "Pocket tissue ",
+    "price": 40,
+    "displayPrice": "From @KES 40",
+    "category": "Skincare",
+    "image": "Pocket tissue.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Pocket tissue.jpeg",
+        "thumbnailUrl": "/images/Pocket tissue.jpeg",
+        "alt": "Pocket tissue "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#dd1e9d",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 20,
+    "description": "Cute pocket tissue that is skin-safe and convenient for on-the-go use.",
+    "imageUrl": "/images/Pocket tissue.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 24,
+    "name": "waist temporary tattoo",
+    "price": 150,
+    "displayPrice": "From @KES 150",
+    "category": "Tattoos",
+    "image": "waist  temporary tattoo.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/waist  temporary tattoo.jpeg",
+        "thumbnailUrl": "/images/waist  temporary tattoo.jpeg",
+        "alt": "waist temporary tattoo"
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#dd1e9d",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 20,
+    "description": "Cute waist temporary tattoo that is skin-safe and fun for on-the-go use.Skin friendly , last for 1-2 weeks and super cute .",
+    "imageUrl": "/images/waist  temporary tattoo.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 25,
+    "name": "sunglasses ",
+    "price": 70,
+    "displayPrice": "From @KES 70",
+    "category": "Sunglasses",
+    "image": "Sunglasses.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Sunglasses.jpeg",
+        "thumbnailUrl": "/images/Sunglasses.jpeg",
+        "alt": "sunglasses "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#e9b8d9",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Grey ",
+      "Purple"
+    ],
+    "stock": 20,
+    "description": "Cute  fashionable sunglasses that are stylish and protect your eyes from the sun.",
+    "imageUrl": "/images/Sunglasses.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 26,
+    "name": "chunky Rings ",
+    "price": 100,
+    "displayPrice": "From @KES 100",
+    "category": "Jewelry",
+    "image": "chunky Rings.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/chunky Rings.jpeg",
+        "thumbnailUrl": "/images/chunky Rings.jpeg",
+        "alt": "chunky Rings "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#e9b8d9",
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold"
+    ],
+    "stock": 20,
+    "description": "Cute  fashionable chunky rings that are stylish and add a touch of glamour to any outfit.",
+    "imageUrl": "/images/chunky Rings.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 27,
+    "name": "Rings ",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Jewelry",
+    "image": "Rings.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Rings.jpeg",
+        "thumbnailUrl": "/images/Rings.jpeg",
+        "alt": "Rings "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#e9b8d9",
+    "colors": [
+      "silver",
+      "Gold",
+      "Rose Gold"
+    ],
+    "stock": 20,
+    "description": "Cute  fashionable rings that are stylish and add a touch of glamour to any outfit.",
+    "imageUrl": "/images/Rings.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 28,
+    "name": "Clear lipgloss ",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Lip care",
+    "image": "Clear lipgloss.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Clear lipgloss.jpeg",
+        "thumbnailUrl": "/images/Clear lipgloss.jpeg",
+        "alt": "Clear lipgloss "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#e9b8d9",
+    "colors": [
+      "Clear"
+    ],
+    "stock": 20,
+    "description": "Cute  fashionable lipgloss that is stylish and adds a touch of glamour to any outfit.",
+    "imageUrl": "/images/Clear lipgloss.jpeg",
+    "isActive": true
+  },
+  {
+    "id": 29,
+    "name": "Mood lipgloss ",
+    "price": 50,
+    "displayPrice": "From @KES 50",
+    "category": "Lip care",
+    "image": "Mood lipgloss.jpeg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/Mood lipgloss.jpeg",
+        "thumbnailUrl": "/images/Mood lipgloss.jpeg",
+        "alt": "Mood lipgloss "
+      }
+    ],
+    "emoji": "🦋",
+    "color": "#e9b8d9",
+    "colors": [
+      "Pink",
+      "Blue",
+      "Green",
+      "Red ",
+      "Purple",
+      "Cherry"
+    ],
+    "stock": 20,
+    "description": "Cute  fashionable coloured  lipgloss that is stylish and adds a touch of glamour to any outfit.Does not affesct your lip condition",
+    "imageUrl": "/images/Mood lipgloss.jpeg",
+    "isActive": true
+  }
+]

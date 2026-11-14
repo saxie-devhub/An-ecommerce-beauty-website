@@ -3,218 +3,256 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Details &amp; Gallery | Aesthetic Girly Gleam</title>
+    <title>Product Detail | Aesthetic Girly Gleam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="home.css" />
-    <link rel="stylesheet" href="home-overrides.css" />
-    <link rel="stylesheet" href="product-showcase.css" />
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/home-overrides.css" />
     <style>
-      .mpesa-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; place-items: center; z-index: 99999; }
-      .mpesa-modal.show { display: grid; }
-      .mpesa-card { background: #fff; border-radius: 28px; padding: 36px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-      .mpesa-logo { width: 140px; margin-bottom: 12px; }
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 50px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(75,23,79,0.1);
+        }
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        #productMainImageContainer {
+            width: 100%;
+            height: 450px;
+            border-radius: 16px;
+            background: #f5edf5;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px;
+        }
+        .product-info h1 {
+            font-family: "Playfair Display", serif;
+            color: #4b174f;
+            margin: 0 0 8px;
+            font-size: 2rem;
+        }
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d5488c;
+            margin: 12px 0;
+        }
+        .product-description {
+            color: #6a4e68;
+            line-height: 1.8;
+            margin: 16px 0;
+        }
+        .product-category {
+            display: inline-block;
+            background: #f5edf5;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            color: #4b174f;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .designs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .color-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+        .add-to-cart-btn {
+            padding: 16px 40px;
+            border: 0;
+            border-radius: 99px;
+            background: linear-gradient(135deg, #7e39b8, #d5488c);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 16px;
+            width: 100%;
+        }
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #8b6f8a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            color: #d5488c;
+        }
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .quantity-selector button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e8d4e6;
+            border-radius: 50%;
+            background: #fff;
+            color: #4b174f;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .quantity-selector span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 30px;
+            }
+            #productMainImageContainer {
+                height: 300px;
+            }
+            .product-info h1 {
+                font-size: 1.5rem;
+            }
+        }
+        html[data-theme="dark"] .product-detail-container {
+            background: #2c1730;
+        }
+        html[data-theme="dark"] .product-info h1 {
+            color: #fff0fb;
+        }
+        html[data-theme="dark"] .product-description {
+            color: #f1cae6;
+        }
+        html[data-theme="dark"] .quantity-selector button {
+            background: #3b1c3d;
+            color: #fbeaf7;
+            border-color: #6f3868;
+        }
     </style>
 </head>
 <body>
-    <div class="top-note">✨ Free delivery in Kasarani · Lipa Na M-Pesa available on checkout</div>
+    <div class="top-note">✨ Nairobi pickup available · DM us for the cutest finds</div>
 
     <header class="header">
-      <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
-      <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
-      <nav class="main-nav" id="mainNav">
-        <a href="home.html">🏠 Home</a>
-        <a class="active" href="index.html#shop">🛍️ Shop</a>
-        <a href="reviews.html">⭐ Reviews</a>
-        <a href="index.html#payment">💳 Payments</a>
-        <a href="profile.html">👤 Profile</a>
-      </nav>
-      <div class="header-actions">
-        <a class="cart-link" href="index.html#cart">🛍️ <b id="cartCount">0</b></a>
-        <button class="theme-toggle" type="button">☾</button>
-      </div>
+        <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+        <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+        <nav class="main-nav" id="mainNav">
+            <a href="home.html">🏠 Home</a>
+            <a href="index.html#shop">🛍️ Shop</a>
+            <a href="about.html">💖 About</a>
+            <a href="reviews.html">⭐ Reviews</a>
+            <a href="contact.html">📧 Contact</a>
+            <a href="profile.html">👤 Profile</a>
+            <a href="admin.html" id="adminNavLink" style="display:none;">📊 Admin</a>
+        </nav>
+        <div class="header-actions">
+            <a class="cart-link" href="index.html#cart">🛍️ <b id="cartCount">0</b></a>
+            <div class="site-controls">
+                <label class="language-picker">
+                    <select class="language-select">
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="sw">🇰🇪 SW</option>
+                        <option value="sheng">🔥 Sheng</option>
+                    </select>
+                </label>
+                <button class="theme-toggle" type="button">☾</button>
+            </div>
+        </div>
     </header>
 
     <main>
-      <section class="product-showcase" id="productShowcaseSection">
-        <!-- 1. Interactive Media Gallery -->
-        <div class="gallery-container">
-          <div class="main-media-viewport" id="mainGalleryViewport">
-            <!-- Main Image / Video Injected dynamically -->
-          </div>
-          <div class="thumbnail-strip" id="thumbnailStrip">
-            <!-- Thumbnails Injected dynamically -->
-          </div>
+        <div class="product-detail-container" id="productDetail">
+            <!-- Left: Gallery -->
+            <div class="product-gallery">
+                <a href="index.html#shop" class="back-btn">← Back to Shop</a>
+                <div id="productMainImageContainer"></div>
+                <div class="product-thumbnails" id="productThumbnails"></div>
+            </div>
+            
+            <!-- Right: Info -->
+            <div class="product-info">
+                <span class="product-category" id="productCategory">Category</span>
+                <h1 id="productName">Product Name</h1>
+                <div class="product-price" id="productPrice">KES 0</div>
+                <p class="product-description" id="productDescription">Product description goes here.</p>
+                
+                <!-- Designs / Variants -->
+                <div style="display:none;">
+                    <strong style="color:#4b174f;font-size:0.9rem;">🎨 Select Design:</strong>
+                    <div class="designs-grid" id="productDesigns"></div>
+                </div>
+                
+                <!-- Colors -->
+                <div>
+                    <strong style="color:#4b174f;font-size:0.9rem;">🎨 Available Colors:</strong>
+                    <div class="color-options" id="productColors"></div>
+                </div>
+                
+                <!-- Stock -->
+                <p style="font-size:0.85rem;color:#4b174f;margin:8px 0;">
+                    📦 <span id="productStock" style="font-weight:700;color:#d5488c;">0</span> pieces available
+                </p>
+                
+                <!-- Quantity -->
+                <div class="quantity-selector">
+                    <button id="qtyMinus">−</button>
+                    <span id="qtyDisplay">1</span>
+                    <button id="qtyPlus">+</button>
+                </div>
+                
+                <!-- Add to Cart -->
+                <button class="add-to-cart-btn" id="addToCartBtn">🛍️ Add to Cart</button>
+            </div>
         </div>
-
-        <!-- 2. Product Details, Color/Size Variants & Stepper -->
-        <div class="product-details">
-          <span class="product-category-tag" id="productCategoryTag">Skincare</span>
-          <h1 class="product-title" id="productTitle">Hydrocolloid Cute Heart &amp; Star Pimple Patches</h1>
-          
-          <div class="product-price-wrapper">
-            <span class="current-price" id="dynamicProductPrice">KES 350</span>
-            <div id="stockStatusBadge"></div>
-          </div>
-
-          <p id="productDescription" style="color:#6a4e68; line-height:1.6;">
-            Ultra-cute hydrocolloid overnight blemish stickers infused with tea tree oil &amp; salicylic acid to heal spots while looking gorgeous.
-          </p>
-
-          <!-- Color / Edition Selector -->
-          <div class="variant-selector-group">
-            <label class="variant-label">Choose Edition / Color:</label>
-            <div class="variant-options" id="variantOptionsContainer">
-              <!-- Variant pills injected dynamically -->
-            </div>
-          </div>
-
-          <!-- Quantity Stepper & Checkout Actions -->
-          <div class="purchase-controls">
-            <div class="quantity-stepper">
-              <button class="stepper-btn" id="stepMinusBtn" type="button">−</button>
-              <input type="text" class="stepper-input" id="stepperValue" value="1" readonly />
-              <button class="stepper-btn" id="stepPlusBtn" type="button">+</button>
-            </div>
-
-            <button class="btn-add-to-cart" id="addToCartBtn" type="button">🛍️ Add To Cart</button>
-            <button class="btn-wishlist-heart" id="wishlistHeartBtn" type="button" title="Save to Wishlist">♡</button>
-          </div>
-
-          <button id="buyNowMpesaBtn" style="margin-top:10px; width:100%; padding:14px; background:#27ae60; color:#fff; border:0; border-radius:99px; font-weight:700; cursor:pointer; font-size:1rem; box-shadow:0 8px 20px rgba(39,174,96,0.25);">
-            📲 Lipa na M-Pesa · Pochi la Biashara 0728 091 300
-          </button>
-
-          <!-- Gleam Loyalty Points Badge -->
-          <div style="background:#fdf5fc; padding:14px 18px; border-radius:16px; border:1px solid #f6ddee; display:flex; align-items:center; gap:12px; margin-top:8px;">
-            <span style="font-size:1.5rem;">✨</span>
-            <div style="font-size:0.85rem; color:#4b174f;">
-              Earn <strong>+35 Gleam Loyalty Points</strong> with this order for future discounts!
-            </div>
-          </div>
-
-          <!-- Checkpoint Delivery Tracking Timeline -->
-          <div style="margin-top:24px; border-top:2px solid #f9e2f3; padding-top:20px;">
-            <h3 style="font-family:'Playfair Display', serif; color:#4b174f; margin:0 0 12px;">🚚 Real-Time Delivery Checkpoints</h3>
-            <div id="sampleTrackingTimeline"></div>
-          </div>
-        </div>
-      </section>
     </main>
 
-    <!-- M-Pesa STK Prompt Modal -->
-    <div class="mpesa-modal" id="mpesaModal">
-      <div class="mpesa-card">
-        <h2 style="color:#27ae60; margin:0 0 6px;">📲 Lipa Na M-Pesa</h2>
-        <p style="color:#6a4e68; font-size:0.9rem; margin-bottom:20px;">Enter your Safaricom phone number to receive the instant PIN prompt on your phone.</p>
-        
-        <input type="tel" id="mpesaPhoneInput" placeholder="e.g. 0712 345 678" style="width:100%; padding:12px; border:2px solid #e8d4e6; border-radius:14px; font-size:1.1rem; text-align:center; box-sizing:border-box; margin-bottom:16px;" />
-        
-        <button id="sendStkPushBtn" style="width:100%; padding:14px; border:0; border-radius:99px; background:#27ae60; color:#fff; font-weight:700; font-size:1rem; cursor:pointer;">
-          Send M-Pesa PIN Prompt →
-        </button>
-        <p id="mpesaStatusMsg" style="margin-top:12px; font-weight:600; font-size:0.85rem;"></p>
-        
-        <button onclick="document.getElementById('mpesaModal').classList.remove('show')" style="margin-top:12px; background:transparent; border:0; color:#8b6f8a; cursor:pointer;">Cancel</button>
-      </div>
-    </div>
+    <footer>
+        <div class="footer-brand">
+            <a class="logo" href="home.html"><span>AG</span><strong>Aesthetic Girly<br /><i>Gleam</i></strong></a>
+            <p>Small details, major sparkle.</p>
+        </div>
+        <div>
+            <h3>Quick links</h3>
+            <a href="index.html#shop">Shop</a>
+            <a href="about.html">About</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </footer>
+    <div class="copyright">© 2026 Aesthetic Girly Gleam · Made with ♡ in Kenya</div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="site-tools.js"></script>
-    <script src="product-showcase.js"></script>
-    <script src="product-detail.js"></script>
-    <!--
-      Legacy demonstration data retained only as a reference; the page is now powered
-      by product-detail.js and the live /api/products/:id endpoint.
-    <script>
-      document.addEventListener('DOMContentLoaded', async function () {
-        // Sample Product Data (with Media Gallery: images + video, and Color Variants)
-        const sampleProduct = {
-          id: "prod_sample_1",
-          name: "Hydrocolloid Cute Heart & Star Pimple Patches",
-          price: 350,
-          category: "Skincare",
-          description: "Ultra-cute hydrocolloid overnight blemish stickers infused with tea tree oil & salicylic acid.",
-          media: [
-            { media_type: "image", url: "/images/patch.jpeg", thumbnail_url: "/images/patch.jpeg" },
-            { media_type: "image", url: "/images/patch-packaging.jpeg", thumbnail_url: "/images/patch-packaging.jpeg" },
-            { media_type: "video", url: "/images/patch-video.mp4", thumbnail_url: "/images/patch-deliveries.jpeg" }
-          ],
-          variants: [
-            { id: "var_1", color: "Pink Hearts", size: "36 Patches", stock_quantity: 25, price_adjustment: 0 },
-            { id: "var_2", color: "Yellow Stars", size: "36 Patches", stock_quantity: 18, price_adjustment: 0 },
-            { id: "var_3", color: "Glitter Holographic", size: "48 Patches", stock_quantity: 4, price_adjustment: 100 }
-          ]
-        };
-
-        // 1. Initialize Media Gallery (Images + Video + Zoom)
-        initProductGallery(sampleProduct.media);
-
-        // 2. Initialize Variants & Stepper
-        initVariantSelector(sampleProduct.variants, sampleProduct.price);
-        initQuantityStepper();
-
-        // 3. Wishlist Heart Toggle
-        document.getElementById('wishlistHeartBtn').addEventListener('click', function() {
-          toggleWishlistHeart(sampleProduct.id, this);
-        });
-
-        // 4. M-Pesa STK Push Trigger Modal
-        document.getElementById('buyNowMpesaBtn').addEventListener('click', () => {
-          document.getElementById('mpesaModal').classList.add('show');
-        });
-
-        document.getElementById('sendStkPushBtn').addEventListener('click', async () => {
-          const phone = document.getElementById('mpesaPhoneInput').value.trim();
-          const status = document.getElementById('mpesaStatusMsg');
-          if (!phone) {
-            status.textContent = "⚠️ Please enter your phone number";
-            status.style.color = "#e74c3c";
-            return;
-          }
-
-          status.textContent = "⏳ Sending STK Prompt to phone...";
-          status.style.color = "#7e39b8";
-
-          triggerMpesaSTKPush(
-            "sample_order_123",
-            phone,
-            (res) => {
-              if (res.paid) {
-                status.textContent = `🎉 Paid! M-Pesa Receipt: ${res.receipt}`;
-                status.style.color = "#27ae60";
-              } else {
-                status.textContent = `📱 Prompt Sent! Enter your M-Pesa PIN on your phone.`;
-                status.style.color = "#27ae60";
-              }
-            },
-            (err) => {
-              status.textContent = `❌ ${err}`;
-              status.style.color = "#e74c3c";
-            }
-          );
-        });
-
-        // 5. Render Checkpoints Sample
-        const sampleCheckpoints = [
-          { timestamp: "Today, 14:30", location: "Kasarani Delivery Hub", status: "Out For Delivery 🚚", description: "Rider dispatched with your pink parcel." },
-          { timestamp: "Today, 10:15", location: "Aesthetic Girly Gleam Studio", status: "Order Packed ✨", description: "Blemish patches and cute stickers packed with love." },
-          { timestamp: "Yesterday, 19:40", location: "Online Shop", status: "Order Confirmed 💖", description: "Payment received via Lipa Na M-Pesa." }
-        ];
-
-        document.getElementById('sampleTrackingTimeline').innerHTML = `
-          <div class="timeline">
-            ${sampleCheckpoints.map(c => `
-              <div class="timeline-checkpoint">
-                <span class="checkpoint-node"></span>
-                <div class="checkpoint-time">📅 ${c.timestamp} · 📍 ${c.location}</div>
-                <div class="checkpoint-status">${c.status}</div>
-                <div class="checkpoint-desc">${c.description}</div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      });
-    </script> -->
+    <script src="/site-tools.js"></script>
+    <script src="/script.js"></script>
+    <script src="/product-detail.js"></script>
 </body>
 </html>

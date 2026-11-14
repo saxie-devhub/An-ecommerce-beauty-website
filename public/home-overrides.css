@@ -33,9 +33,36 @@ body { background:var(--cream); }
 .hero-promise span { color:#db4f91; }
 .circle-a { background:#a757c4; }
 .circle-b { background:#f4a9ca; }
-.photo-placeholder { position:absolute; z-index:2; right:23%; top:40px; width:205px; height:205px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; border:7px solid rgba(255,255,255,.9); border-radius:50%; color:#fff; background:linear-gradient(145deg,#9d337d,#a957c5); box-shadow:0 18px 28px rgba(92,20,87,.22); cursor:pointer; transform:rotate(5deg); }
-.photo-placeholder span { display:grid; place-items:center; width:54px; height:54px; border:1px solid rgba(255,255,255,.75); border-radius:50%; font-size:2rem; font-weight:300; }
-.photo-placeholder small { margin-top:10px; font-size:.68rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+.photo-placeholder { 
+    position:absolute; 
+    z-index:2; 
+    right:23%; 
+    top:40px; 
+    width:205px; 
+    height:205px; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    overflow:hidden; 
+    border:7px solid rgba(255,255,255,.9); 
+    border-radius:20px;  /* ← CHANGED from 50% to 20px (square with rounded corners) */
+    color:#fff; 
+    background:linear-gradient(145deg,#9d337d,#a957c5); 
+    box-shadow:0 18px 28px rgba(92,20,87,.22); 
+    cursor:pointer; 
+    transform:rotate(5deg); 
+}
+.photo-placeholder span { 
+    display:grid; 
+    place-items:center; 
+    width:54px; 
+    height:54px; 
+    border:1px solid rgba(255,255,255,.75); 
+    border-radius:12px;  /* ← CHANGED to square with rounded corners */
+    font-size:2rem; 
+    font-weight:300; 
+}
 .photo-placeholder:focus-visible { outline:3px solid #fff; outline-offset:4px; }
 .photo-placeholder img { width:100%; height:100%; object-fit:cover; }
 .photo-placeholder.has-photo .photo-upload-icon,.photo-placeholder.has-photo .photo-upload-label { display:none; }
@@ -781,4 +808,9 @@ html[data-theme="dark"] .my-review-card p {
 
 html[data-theme="dark"] .stats-row .stat .number {
     color: #fff0fb;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* ✅ 4 columns */
+    gap: 18px;
 }

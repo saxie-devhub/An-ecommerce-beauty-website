@@ -31,12 +31,12 @@ router.post('/', requireAuth, async (req, res) => {
     const userId = req.user.sub || req.user.id;
     const {
       items,
-      subtotal,
       delivery_fee = 150,
       payment_method = 'M-Pesa',
       delivery_address,
       delivery_notes,
-      phone
+      phone,
+      delivery_name
     } = req.body || {};
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -47,36 +47,44 @@ router.post('/', requireAuth, async (req, res) => {
       return res.status(400).json({ error: 'Please provide a valid delivery address or pickup point.' });
     }
 
-    // 1. Check inventory and deduct stock atomically
+    const fee = Number(delivery_fee);
+    if (!Number.isFinite(fee) || fee < 0 || fee > 5000) {
+      return res.status(400).json({ error: 'Delivery fee must be between KES 0 and KES 5,000.' });
+    }
+
+    // 1. Check inventory and deduct stock using current catalog prices.
+    let orderItems;
     try {
-      verifyAndDeductStock(items);
+      orderItems = verifyAndDeductStock(items);
     } catch (stockErr) {
       return res.status(stockErr.statusCode || 400).json({
         error: stockErr.message || 'One or more items in your cart are currently out of stock.'
       });
     }
 
-    const calculatedSubtotal = items.reduce(
-      (sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1),
+    const calculatedSubtotal = orderItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
       0
     );
     // The total is always calculated on the server; never trust a browser-supplied price.
-    const finalTotal = calculatedSubtotal + Number(delivery_fee);
+    const finalTotal = calculatedSubtotal + fee;
     const orderNumber = generateOrderNumber();
 
     const newOrder = {
       id: `ord_${crypto.randomUUID()}`,
       order_number: orderNumber,
       user_id: userId,
-      customer_name: req.user.name || 'Gleam Girl',
+      customer_name: delivery_name && delivery_name.trim().length >= 2
+        ? sanitizeHtml(delivery_name.trim())
+        : req.user.name || 'Gleam Girl',
       customer_email: req.user.email,
       customer_phone: phone ? sanitizeHtml(phone.trim()) : req.user.phone || '',
-      items,
+      items: orderItems,
       subtotal: calculatedSubtotal,
-      delivery_fee: Number(delivery_fee),
+      delivery_fee: fee,
       total: finalTotal,
       payment_method: sanitizeHtml(payment_method),
-      payment_status: String(payment_method).toLowerCase() === 'm-pesa' ? 'pending' : 'paid',
+      payment_status: 'pending',
       delivery_address: sanitizeHtml(delivery_address.trim()),
       delivery_notes: delivery_notes ? sanitizeHtml(delivery_notes.trim()) : '',
       delivery_status: 'pending',

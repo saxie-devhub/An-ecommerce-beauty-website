@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
             'Content-Type': 'application/json',
             Accept: 'application/json'
           },
-          credentials: 'include',
           body: JSON.stringify({ email, password })
         });
 
@@ -134,3 +133,18 @@ document.addEventListener('DOMContentLoaded', function () {
     else submitBtn.classList.remove('is-loading');
   }
 });
+// In the login function, after successful login:
+// In login.js, after successful login
+if (data.user) {
+    localStorage.setItem('agg_user', JSON.stringify(data.user));
+    
+    // ✅ Save admin status
+    if (data.user.is_admin === 1) {
+        localStorage.setItem('agg_is_admin', 'true');
+        console.log('✅ Admin user logged in');
+    }
+    
+    if (data.access_token) {
+        localStorage.setItem('access_token', data.access_token);
+    }
+}

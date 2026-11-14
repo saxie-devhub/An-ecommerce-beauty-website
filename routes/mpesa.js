@@ -34,10 +34,21 @@ async function requestStkPush({ phone, amount, reference }) {
     throw error;
   }
 
+  async function callDaraja(url, options, step) {
+    try {
+      return await fetch(url, options);
+    } catch (cause) {
+      const error = new Error(`Could not connect to Safaricom Daraja during ${step}. Check this computer's internet connection and confirm MPESA_ENV is set to the correct environment.`);
+      error.statusCode = 502;
+      error.cause = cause;
+      throw error;
+    }
+  }
+
   const credentials = Buffer.from(`${config.consumerKey}:${config.consumerSecret}`).toString('base64');
-  const tokenResponse = await fetch(`${config.baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
+  const tokenResponse = await callDaraja(`${config.baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
     headers: { Authorization: `Basic ${credentials}` }
-  });
+  }, 'authorization');
   const tokenData = await tokenResponse.json().catch(() => ({}));
   if (!tokenResponse.ok || !tokenData.access_token) {
     const error = new Error('M-Pesa authorization failed. Check the Daraja consumer key and secret.');
@@ -47,7 +58,7 @@ async function requestStkPush({ phone, amount, reference }) {
 
   const timestamp = new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);
   const password = Buffer.from(`${config.shortcode}${config.passkey}${timestamp}`).toString('base64');
-  const response = await fetch(`${config.baseUrl}/mpesa/stkpush/v1/processrequest`, {
+  const response = await callDaraja(`${config.baseUrl}/mpesa/stkpush/v1/processrequest`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${tokenData.access_token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -63,7 +74,7 @@ async function requestStkPush({ phone, amount, reference }) {
       AccountReference: String(reference).slice(0, 12),
       TransactionDesc: 'AGG Order'
     })
-  });
+  }, 'STK Push');
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.ResponseCode !== '0' || !data.CheckoutRequestID) {
     const error = new Error(data.errorMessage || data.CustomerMessage || 'M-Pesa could not send the STK prompt.');
@@ -96,7 +107,7 @@ router.post('/pay', requireAuth, async (req, res) => {
       restoreStock(order.items || []);
       updateOrder(order.id, { payment_status: 'failed', status: 'cancelled' });
     }
-    console.error('M-Pesa STK request failed:', error.message);
+    console.error('M-Pesa STK request failed:', error.message, error.cause?.cause?.code || error.cause?.code || '');
     return res.status(error.statusCode || 500).json({ error: error.message || 'Unable to start M-Pesa payment.' });
   }
 });

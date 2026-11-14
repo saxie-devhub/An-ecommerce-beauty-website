@@ -1,3 +1,5 @@
+// Make products globally accessible for other pages
+window.products = products;
 const products = [
   { id: 1, name: 'Pimple Patches (Heart & Star)', price: 100, displayPrice: 'KES 100 & KES 150', category: 'Skincare', image: 'patch.jpg', emoji: '💖', color: '#f8d5e4' },
   { id: 2, name: 'Hair Bows', price: 150, displayPrice: 'KES 150', category: 'Hair Accessories', image: 'hairbow.jpg', emoji: '🎀', color: '#ecd9f4' },
@@ -105,3 +107,10 @@ document.querySelector('#prevSlide').addEventListener('click', () => moveSlide(-
 document.querySelector('#checkoutButton').addEventListener('click', () => showToast(cart.length ? 'Checkout is ready to connect to your preferred payment method.' : 'Your shopping bag is empty.'));
 
 renderFilters(); renderProducts(); renderCarousel(); renderCart(); resetTimer();
+if (item.quantity < 1) {
+  cart = cart.filter(product => product.id !== item.id);
+  renderCart();
+}
+// Make the products array available globally
+window.products = products;
+window.bestsellers = bestsellers;

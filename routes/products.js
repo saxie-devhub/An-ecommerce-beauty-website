@@ -22,7 +22,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   try {
-    const products = readProducts();
+    const products = readProducts().filter((product) => product.isActive !== false);
     const { category, in_stock } = req.query;
 
     let filtered = products;

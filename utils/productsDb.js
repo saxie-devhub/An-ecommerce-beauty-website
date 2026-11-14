@@ -4,81 +4,8 @@ const path = require('path');
 
 const DB_PATH = path.join(__dirname, '..', 'data', 'products.json');
 
-// Default initial catalog if products.json doesn't exist
-const DEFAULT_PRODUCTS = [
-  {
-    id: 'prod_1',
-    name: 'Hydrocolloid Cute Heart & Star Pimple Patches',
-    price: 350,
-    category: 'Skincare',
-    description: 'Ultra-cute tea tree & salicylic acid infused hydrocolloid patches for glowing skin.',
-    stock: 25,
-    imageUrl: '/images/patch.jpeg',
-    media: [
-      { type: 'image', url: '/images/patch.jpeg', thumbnailUrl: '/images/patch.jpeg', alt: 'Heart and star pimple patches' },
-      { type: 'image', url: '/images/patch-packaging.jpeg', thumbnailUrl: '/images/patch-packaging.jpeg', alt: 'Pimple patches packaging' },
-      { type: 'image', url: '/images/patch-deliveries.jpeg', thumbnailUrl: '/images/patch-deliveries.jpeg', alt: 'Pimple patches delivery set' },
-      { type: 'video', url: '/images/patch-video.mp4', thumbnailUrl: '/images/patch-deliveries.jpeg', alt: 'Pimple patches video' }
-    ],
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod_2',
-    name: 'Sparkle Quilted Baddie Shoulder Bag',
-    price: 1800,
-    category: 'Bags',
-    description: 'Chic, premium finish handbag to elevate every outfit with major baddie energy.',
-    stock: 8,
-    imageUrl: '/images/bag.jpeg',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod_3',
-    name: 'Gold Dipped Dainty Butterfly Earrings',
-    price: 450,
-    category: 'Jewelry',
-    description: 'Hypoallergenic lightweight gold aesthetic earrings that never tarnish.',
-    stock: 15,
-    imageUrl: '/images/earrings.jpeg',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod_4',
-    name: '3D Faux Mink Wispy Cluster Lashes',
-    price: 600,
-    category: 'Lashes',
-    description: 'Fluffy salon-quality DIY lash clusters with invisible lightweight band.',
-    stock: 12,
-    imageUrl: '/images/clusters.jpeg',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod_5',
-    name: 'Silky Velvet Oversized Hair Scrunchie',
-    price: 250,
-    category: 'Hair Accessories',
-    description: 'Super soft anti-breakage hair scrunchie in gorgeous pastel pink tones.',
-    stock: 20,
-    imageUrl: '/images/scrunchie.jpeg',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod_6',
-    name: 'Layered Dainty Crystal Anklet',
-    price: 400,
-    category: 'Jewelry',
-    description: 'Shimmering anklet that sparkles in natural sunlight, adjustable fit.',
-    stock: 10,
-    imageUrl: '/images/anklet.jpeg',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  }
-];
+// Keep a complete storefront catalog available when the local data file is new.
+const DEFAULT_PRODUCTS = require('./productsCatalog.json');
 
 function readProducts() {
   try {
@@ -146,17 +73,25 @@ function verifyAndDeductStock(items) {
   const products = readProducts();
   const deductedProducts = JSON.parse(JSON.stringify(products));
 
+  const quantities = new Map();
   for (const item of items) {
-    const product = deductedProducts.find(
-      (p) => String(p.id) === String(item.id) || p.name.toLowerCase() === (item.name || '').toLowerCase()
-    );
-
-    if (!product) {
-      // If product id isn't in DB, allow if generic or throw
-      continue;
+    const id = String(item?.id || '');
+    const quantity = Number(item?.quantity);
+    if (!id || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
+      const error = new Error('Each cart item must have a valid product and quantity (1–99).');
+      error.statusCode = 400;
+      throw error;
     }
-
-    const requestedQty = Number(item.quantity || 1);
+    quantities.set(id, (quantities.get(id) || 0) + quantity);
+  }
+  const canonicalItems = [];
+  for (const [id, requestedQty] of quantities) {
+    const product = deductedProducts.find((p) => String(p.id) === id && p.isActive !== false);
+    if (!product) {
+      const error = new Error('A product in your cart is no longer available. Please refresh your cart.');
+      error.statusCode = 400;
+      throw error;
+    }
     const availableStock = Number(product.stock || 0);
 
     if (availableStock < requestedQty) {
@@ -168,9 +103,11 @@ function verifyAndDeductStock(items) {
     }
 
     product.stock = availableStock - requestedQty;
+    canonicalItems.push({ id: product.id, name: product.name, price: Number(product.price), quantity: requestedQty });
   }
 
   writeProducts(deductedProducts);
+  return canonicalItems;
 }
 
 /**

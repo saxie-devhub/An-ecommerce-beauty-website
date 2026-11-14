@@ -510,3 +510,117 @@ body {
         justify-content: center;
     }
 }
+/* Navigation styles for admin page */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    height: 84px;
+    max-width: 1240px;
+    margin: 0 auto;
+    position: relative;
+    background: #fff;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #4b174f;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.logo span {
+    background: #d5488c;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 50%;
+}
+
+.main-nav {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.main-nav a {
+    padding: 8px 16px;
+    border-radius: 99px;
+    color: #5c4767;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.main-nav a:hover {
+    background: #f5edf5;
+    color: #4b174f;
+}
+
+.main-nav a.active {
+    background: #d5488c;
+    color: #fff;
+}
+
+.menu-button {
+    display: none;
+    border: 0;
+    background: none;
+    color: #4b174f;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+@media (max-width: 820px) {
+    .menu-button {
+        display: block;
+    }
+    .main-nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 16px 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        gap: 4px;
+        z-index: 1000;
+        border-radius: 0 0 16px 16px;
+    }
+    .main-nav.open {
+        display: flex;
+    }
+    .main-nav a {
+        padding: 12px 16px;
+        width: 100%;
+        border-radius: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+html[data-theme="dark"] .header {
+    background: #251124;
+}
+html[data-theme="dark"] .main-nav {
+    background: #2c1730;
+}
+html[data-theme="dark"] .main-nav a {
+    color: #c99cc4;
+}
+html[data-theme="dark"] .main-nav a:hover {
+    background: #3b1c3d;
+    color: #fff0fb;
+}
+html[data-theme="dark"] .main-nav a.active {
+    background: #d5488c;
+    color: #fff;
+}
