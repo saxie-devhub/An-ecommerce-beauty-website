@@ -1,3 +1,5 @@
+# backend/services/mpesa_service.py
+
 import requests
 import base64
 from datetime import datetime
@@ -8,11 +10,11 @@ load_dotenv()
 
 class MpesaService:
     def __init__(self):
-        self.consumer_key = os.getenv('MPESA_CONSUMER_KEY')
-        self.consumer_secret = os.getenv('MPESA_CONSUMER_SECRET')
-        self.shortcode = os.getenv('MPESA_SHORTCODE', '174379')
+        self.consumer_key = os.getenv('MPESA_CONSUMER_KEY', '')
+        self.consumer_secret = os.getenv('MPESA_CONSUMER_SECRET', '')
+        self.shortcode = os.getenv('MPESA_SHORTCODE', '0728091300')  # ✅ Your Paybill
         self.passkey = os.getenv('MPESA_PASSKEY', '')
-        self.callback_url = os.getenv('MPESA_CALLBACK_URL')
+        self.callback_url = os.getenv('MPESA_CALLBACK_URL', 'http://localhost:5000/api/mpesa/callback')
         self.environment = os.getenv('MPESA_ENV', 'sandbox')
         
         # Base URLs
@@ -23,58 +25,52 @@ class MpesaService:
     
     def get_access_token(self):
         """Get OAuth access token"""
+        if not self.consumer_key or not self.consumer_secret:
+            print("⚠️ M-Pesa credentials not set")
+            return None
+            
         auth_url = f"{self.base_url}/oauth/v1/generate?grant_type=client_credentials"
-        
-        # Encode credentials
         credentials = f"{self.consumer_key}:{self.consumer_secret}"
         encoded_credentials = base64.b64encode(credentials.encode()).decode()
         
-        headers = {
-            'Authorization': f'Basic {encoded_credentials}'
-        }
+        headers = {'Authorization': f'Basic {encoded_credentials}'}
         
         try:
-            response = requests.get(auth_url, headers=headers)
+            response = requests.get(auth_url, headers=headers, timeout=30)
             response.raise_for_status()
             data = response.json()
             return data.get('access_token')
         except Exception as e:
-            print(f"❌ Error getting access token: {e}")
+            print(f"❌ M-Pesa token error: {e}")
             return None
     
     def stk_push(self, phone_number, amount, account_reference, transaction_desc="Payment"):
-        """Initiate STK Push"""
+        """Initiate STK Push with Paybill 0728091300"""
         access_token = self.get_access_token()
         if not access_token:
             return {'error': 'Failed to get access token'}
         
-        # Format phone number (remove leading 0 or +)
-        phone_number = phone_number.replace('+', '').replace(' ', '')
-        if phone_number.startswith('0'):
-            phone_number = '254' + phone_number[1:]
-        elif not phone_number.startswith('254'):
-            phone_number = '254' + phone_number
+        # Format phone number (254XXXXXXXXX)
+        phone = phone_number.replace('+', '').replace(' ', '')
+        if phone.startswith('0'):
+            phone = '254' + phone[1:]
+        elif not phone.startswith('254'):
+            phone = '254' + phone
         
-        # Generate timestamp
+        # Generate timestamp and password
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-        
-        # Generate password
         password_str = f"{self.shortcode}{self.passkey}{timestamp}"
         password = base64.b64encode(password_str.encode()).decode()
         
-        # STK Push URL
-        stk_url = f"{self.base_url}/mpesa/stkpush/v1/processrequest"
-        
-        # Request payload
         payload = {
             'BusinessShortCode': self.shortcode,
             'Password': password,
             'Timestamp': timestamp,
             'TransactionType': 'CustomerPayBillOnline',
             'Amount': int(amount),
-            'PartyA': phone_number,
+            'PartyA': phone,
             'PartyB': self.shortcode,
-            'PhoneNumber': phone_number,
+            'PhoneNumber': phone,
             'CallBackURL': self.callback_url,
             'AccountReference': account_reference[:12],
             'TransactionDesc': transaction_desc[:20]
@@ -86,8 +82,12 @@ class MpesaService:
         }
         
         try:
-            response = requests.post(stk_url, json=payload, headers=headers)
-            response.raise_for_status()
+            response = requests.post(
+                f"{self.base_url}/mpesa/stkpush/v1/processrequest",
+                json=payload,
+                headers=headers,
+                timeout=30
+            )
             return response.json()
         except Exception as e:
             print(f"❌ STK Push error: {e}")
@@ -118,7 +118,7 @@ class MpesaService:
         }
         
         try:
-            response = requests.post(query_url, json=payload, headers=headers)
+            response = requests.post(query_url, json=payload, headers=headers, timeout=30)
             response.raise_for_status()
             return response.json()
         except Exception as e:

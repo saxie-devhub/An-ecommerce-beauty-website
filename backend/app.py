@@ -3,7 +3,10 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, verify_jwt_in_request
 from functools import wraps
 from dotenv import load_dotenv
+# Add this import
 from services.mpesa_service import MpesaService
+import requests
+import base64
 import os
 import MySQLdb
 import MySQLdb.cursors
@@ -409,6 +412,7 @@ def get_users():
 @app.route('/api/mpesa/pay', methods=['POST'])
 @require_auth
 def mpesa_pay():
+    """Initiate M-Pesa STK Push"""
     data = request.get_json()
     
     if not data.get('phone_number'):
@@ -442,7 +446,8 @@ def mpesa_pay():
         transaction_desc=f"Payment for order {order['order_number']}"
     )
     
-    if result.get('ResponseCode') == '0':
+    # Check if we got a valid response
+    if result and result.get('ResponseCode') == '0':
         # Save transaction
         db = get_db()
         cursor = db.cursor()
@@ -466,9 +471,10 @@ def mpesa_pay():
             'checkout_request_id': result.get('CheckoutRequestID')
         }), 200
     else:
+        error_msg = result.get('errorMessage', 'Payment initiation failed') if result else 'No response from M-Pesa'
         return jsonify({
             'success': False,
-            'error': result.get('errorMessage', 'Payment initiation failed')
+            'error': error_msg
         }), 400
 
 @app.route('/api/mpesa/callback', methods=['POST'])
@@ -477,7 +483,7 @@ def mpesa_callback():
     data = request.get_json()
     print("📱 M-Pesa Callback received:", data)
     
-    if data.get('Body', {}).get('stkCallback'):
+    if data and data.get('Body', {}).get('stkCallback'):
         callback = data['Body']['stkCallback']
         
         result_code = callback.get('ResultCode')
@@ -514,6 +520,8 @@ def mpesa_callback():
                     INSERT INTO deliveries (order_id, status) VALUES (%s, 'pending')
                 """, (transaction['order_id'],))
                 db.commit()
+                
+                print(f"✅ Order {transaction['order_id']} paid and processing")
         else:
             # Payment failed
             cursor.execute("""
@@ -522,6 +530,7 @@ def mpesa_callback():
                 WHERE checkout_request_id = %s
             """, (result_code, result_desc, checkout_request_id))
             db.commit()
+            print(f"❌ Payment failed: {result_desc}")
         
         db.close()
     
