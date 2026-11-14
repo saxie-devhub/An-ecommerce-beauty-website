@@ -20,9 +20,9 @@ const router = express.Router();
 /**
  * GET /api/products - Get all products (Public)
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const products = readProducts().filter((product) => product.isActive !== false);
+    const products = (await readProducts()).filter((product) => product.isActive !== false);
     const { category, in_stock } = req.query;
 
     let filtered = products;
@@ -49,9 +49,9 @@ router.get('/', (req, res) => {
 /**
  * GET /api/products/:id - Get single product
  */
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const product = findProductById(req.params.id);
+    const product = await findProductById(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found.' });
     }
@@ -64,7 +64,7 @@ router.get('/:id', (req, res) => {
 /**
  * POST /api/products - (Admin Only) Add a new product
  */
-router.post('/', requireAuth, requireAdmin, (req, res) => {
+router.post('/', requireAuth, requireAdmin, async (req, res) => {
   try {
     const { name, price, category, description, stock, imageUrl } = req.body || {};
 
@@ -90,7 +90,7 @@ router.post('/', requireAuth, requireAdmin, (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    addProduct(newProduct);
+    await addProduct(newProduct);
 
     return res.status(201).json({
       message: 'Product added successfully! ✨',
@@ -105,10 +105,10 @@ router.post('/', requireAuth, requireAdmin, (req, res) => {
 /**
  * PUT /api/products/:id - (Admin Only) Edit an existing product
  */
-router.put('/:id', requireAuth, requireAdmin, (req, res) => {
+router.put('/:id', requireAuth, requireAdmin, async (req, res) => {
   try {
     const productId = req.params.id;
-    const existing = findProductById(productId);
+    const existing = await findProductById(productId);
     if (!existing) {
       return res.status(404).json({ error: 'Product not found.' });
     }
@@ -134,7 +134,7 @@ router.put('/:id', requireAuth, requireAdmin, (req, res) => {
     if (imageUrl) updates.imageUrl = imageUrl.trim();
     if (isActive !== undefined) updates.isActive = Boolean(isActive);
 
-    const updated = updateProduct(productId, updates);
+    const updated = await updateProduct(productId, updates);
 
     return res.status(200).json({
       message: 'Product updated successfully!',
@@ -149,9 +149,9 @@ router.put('/:id', requireAuth, requireAdmin, (req, res) => {
 /**
  * DELETE /api/products/:id - (Admin Only) Delete a product
  */
-router.delete('/:id', requireAuth, requireAdmin, (req, res) => {
+router.delete('/:id', requireAuth, requireAdmin, async (req, res) => {
   try {
-    const deleted = deleteProduct(req.params.id);
+    const deleted = await deleteProduct(req.params.id);
     if (!deleted) {
       return res.status(404).json({ error: 'Product not found.' });
     }

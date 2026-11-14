@@ -1,41 +1,48 @@
 const fs = require('fs');
 const path = require('path');
+const { isPostgresEnabled, listRecords, mutateRecords } = require('./pgStore');
 
 const DB_PATH = path.join(__dirname, '..', 'data', 'payments.json');
 
-function readPayments() {
+function readLocalPayments() {
   try {
-    if (!fs.existsSync(DB_PATH)) return [];
     return JSON.parse(fs.readFileSync(DB_PATH, 'utf8') || '[]');
   } catch (error) {
-    console.error('Unable to read payment records:', error);
+    if (error.code !== 'ENOENT') console.error('Unable to read payment records:', error);
     return [];
   }
 }
 
-function writePayments(payments) {
+function writeLocalPayments(payments) {
   fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
   fs.writeFileSync(DB_PATH, JSON.stringify(payments, null, 2));
 }
 
-function createPayment(payment) {
-  const payments = readPayments();
+async function createPayment(payment) {
+  if (isPostgresEnabled()) return mutateRecords('payments', (payments) => { payments.unshift(payment); return payment; });
+  const payments = readLocalPayments();
   payments.unshift(payment);
-  writePayments(payments);
+  writeLocalPayments(payments);
   return payment;
 }
 
-function updatePayment(checkoutRequestId, updates) {
-  const payments = readPayments();
-  const index = payments.findIndex((item) => item.checkoutRequestId === checkoutRequestId);
-  if (index < 0) return null;
-  payments[index] = { ...payments[index], ...updates, updatedAt: new Date().toISOString() };
-  writePayments(payments);
-  return payments[index];
+async function updatePayment(checkoutRequestId, updates) {
+  const update = (payments) => {
+    const index = payments.findIndex((payment) => payment.checkoutRequestId === checkoutRequestId);
+    if (index < 0) return null;
+    payments[index] = { ...payments[index], ...updates, updatedAt: new Date().toISOString() };
+    return payments[index];
+  };
+  if (isPostgresEnabled()) return mutateRecords('payments', update);
+  const payments = readLocalPayments();
+  const result = update(payments);
+  if (result) writeLocalPayments(payments);
+  return result;
 }
 
-function findPayment(checkoutRequestId) {
-  return readPayments().find((item) => item.checkoutRequestId === checkoutRequestId);
+async function findPayment(checkoutRequestId) {
+  const payments = isPostgresEnabled() ? await listRecords('payments') : readLocalPayments();
+  return payments.find((payment) => payment.checkoutRequestId === checkoutRequestId) || null;
 }
 
 module.exports = { createPayment, updatePayment, findPayment };

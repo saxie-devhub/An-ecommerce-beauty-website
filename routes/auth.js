@@ -26,7 +26,7 @@ const authLimiter = rateLimit({
 /**
  * POST /api/auth/signup
  */
-router.post('/signup', authLimiter, (req, res) => {
+router.post('/signup', authLimiter, async (req, res) => {
   try {
     const { name, email, password } = req.body || {};
 
@@ -41,7 +41,7 @@ router.post('/signup', authLimiter, (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    if (findUserByEmail(cleanEmail)) {
+    if (await findUserByEmail(cleanEmail)) {
       return res.status(409).json({ error: 'An account with this email already exists. Please log in.' });
     }
 
@@ -59,7 +59,7 @@ router.post('/signup', authLimiter, (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    createUser(user);
+    await createUser(user);
 
     const token = signSession(user);
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
@@ -82,6 +82,7 @@ router.post('/signup', authLimiter, (req, res) => {
     });
   } catch (err) {
     console.error('Signup Error:', err);
+    if (err.code === 'USER_EXISTS') return res.status(409).json({ error: 'An account with this email already exists. Please log in.' });
     return res.status(500).json({ error: 'Internal server error during registration.' });
   }
 });
@@ -89,7 +90,7 @@ router.post('/signup', authLimiter, (req, res) => {
 /**
  * POST /api/auth/login
  */
-router.post('/login', authLimiter, (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   try {
     const { email, password } = req.body || {};
 
@@ -98,7 +99,7 @@ router.post('/login', authLimiter, (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    const user = findUserByEmail(cleanEmail);
+    const user = await findUserByEmail(cleanEmail);
     const genericError = { error: 'Incorrect email or password.' };
 
     if (!user || !user.passwordHash) {
@@ -138,27 +139,32 @@ router.post('/login', authLimiter, (req, res) => {
 /**
  * GET /api/auth/me (Protected)
  */
-router.get('/me', requireAuth, (req, res) => {
-  const user = findUserById(req.user.sub || req.user.id) || req.user;
-  res.json({
-    user: {
-      id: user.id || user.sub,
-      name: user.name,
-      email: user.email,
-      bio: user.bio || '',
-      location: user.location || '',
-      phone: user.phone || '',
-      avatar: user.avatar || '',
-      role: user.role || 'customer',
-      is_admin: user.is_admin || (user.role === 'admin' ? 1 : 0)
-    }
-  });
+router.get('/me', requireAuth, async (req, res) => {
+  try {
+    const user = await findUserById(req.user.sub || req.user.id) || req.user;
+    return res.json({
+      user: {
+        id: user.id || user.sub,
+        name: user.name,
+        email: user.email,
+        bio: user.bio || '',
+        location: user.location || '',
+        phone: user.phone || '',
+        avatar: user.avatar || '',
+        role: user.role || 'customer',
+        is_admin: user.is_admin || (user.role === 'admin' ? 1 : 0)
+      }
+    });
+  } catch (err) {
+    console.error('Profile lookup error:', err);
+    return res.status(500).json({ error: 'Failed to retrieve profile.' });
+  }
 });
 
 /**
  * PUT /api/auth/profile (Protected)
  */
-router.put('/profile', requireAuth, (req, res) => {
+router.put('/profile', requireAuth, async (req, res) => {
   try {
     const userId = req.user.sub || req.user.id;
     const { name, bio, location, phone, avatar } = req.body || {};
@@ -170,7 +176,7 @@ router.put('/profile', requireAuth, (req, res) => {
     if (phone !== undefined) updates.phone = sanitizeHtml(phone.trim());
     if (avatar !== undefined) updates.avatar = avatar;
 
-    const updatedUser = updateUserProfile(userId, updates);
+    const updatedUser = await updateUserProfile(userId, updates);
     if (!updatedUser) {
       return res.status(404).json({ error: 'User profile not found.' });
     }

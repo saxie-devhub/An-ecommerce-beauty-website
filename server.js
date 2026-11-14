@@ -17,6 +17,7 @@ const mpesaRoutes = require('./routes/mpesa');
 const { requireAuth, requireAdmin } = require('./middleware/auth');
 const { sanitizeInputMiddleware } = require('./middleware/security');
 const { readUsers, updateUserProfile } = require('./utils/db');
+const { initializeStorage, isPostgresEnabled } = require('./utils/pgStore');
 
 const app = express();
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -60,49 +61,71 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/mpesa', mpesaRoutes);
 
 // Admin User Management Endpoints
-app.get('/api/users', requireAuth, requireAdmin, (req, res) => {
-  const users = readUsers().map((u) => ({
-    id: u.id,
-    name: u.name,
-    email: u.email,
-    phone: u.phone || '',
-    role: u.role || (u.is_admin ? 'admin' : 'customer'),
-    is_admin: u.is_admin || (u.role === 'admin' ? 1 : 0),
-    created_at: u.createdAt || u.created_at || new Date().toISOString()
-  }));
-  res.json({ users });
+app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const users = (await readUsers()).map((u) => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      phone: u.phone || '',
+      role: u.role || (u.is_admin ? 'admin' : 'customer'),
+      is_admin: u.is_admin || (u.role === 'admin' ? 1 : 0),
+      created_at: u.createdAt || u.created_at || new Date().toISOString()
+    }));
+    return res.json({ users });
+  } catch (error) {
+    console.error('Unable to read users:', error);
+    return res.status(500).json({ error: 'Failed to retrieve users.' });
+  }
 });
 
-app.put('/api/users/:id/role', requireAuth, requireAdmin, (req, res) => {
-  const { role } = req.body || {};
-  const newRole = role === 'admin' ? 'admin' : 'customer';
-  const updatedUser = updateUserProfile(req.params.id, {
-    role: newRole,
-    is_admin: newRole === 'admin' ? 1 : 0
-  });
+app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { role } = req.body || {};
+    const newRole = role === 'admin' ? 'admin' : 'customer';
+    const updatedUser = await updateUserProfile(req.params.id, {
+      role: newRole,
+      is_admin: newRole === 'admin' ? 1 : 0
+    });
 
-  if (!updatedUser) return res.status(404).json({ error: 'User not found.' });
+    if (!updatedUser) return res.status(404).json({ error: 'User not found.' });
 
-  res.json({
-    message: `User role updated to ${newRole}!`,
-    user: {
-      id: updatedUser.id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      role: updatedUser.role,
-      is_admin: updatedUser.is_admin
-    }
-  });
+    return res.json({
+      message: `User role updated to ${newRole}!`,
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        is_admin: updatedUser.is_admin
+      }
+    });
+  } catch (error) {
+    console.error('Unable to update user role:', error);
+    return res.status(500).json({ error: 'Failed to update user role.' });
+  }
 });
 
-app.get('/api/health', (req, res) => res.json({ status: 'online', store: 'Aesthetic Girly Gleam' }));
+app.get('/api/health', (req, res) => res.json({
+  status: 'online',
+  store: 'Aesthetic Girly Gleam',
+  database: isPostgresEnabled() ? 'postgres' : 'local-json'
+}));
 
 // Static Files & Pages
 app.get('/', (req, res) => res.redirect('/home.html'));
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✨ Server running at http://localhost:${PORT}`);
-  console.log(`🔗 Allowed CORS origins: ${allowedOrigins.join(', ') || 'same-origin only'}`);
-});
+initializeStorage()
+  .then(({ backend }) => {
+    app.listen(PORT, () => {
+      console.log(`✨ Server running at http://localhost:${PORT}`);
+      console.log(`🗄️ Data storage: ${backend}`);
+      console.log(`🔗 Allowed CORS origins: ${allowedOrigins.join(', ') || 'same-origin only'}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Storage initialization failed:', error);
+    process.exit(1);
+  });

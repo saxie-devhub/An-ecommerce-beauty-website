@@ -10,9 +10,9 @@ const router = express.Router();
 /**
  * GET /api/reviews - Public or Authenticated fetch of all approved reviews
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const reviews = readReviews();
+    const reviews = await readReviews();
     return res.status(200).json({
       success: true,
       reviews
@@ -26,11 +26,11 @@ router.get('/', (req, res) => {
 /**
  * GET /api/reviews/my - (Protected) Get logged in user's reviews
  */
-router.get('/my', requireAuth, (req, res) => {
+router.get('/my', requireAuth, async (req, res) => {
   try {
     const userId = req.user.sub || req.user.id;
     const userEmail = req.user.email;
-    const all = readReviews();
+    const all = await readReviews();
     const myReviews = all.filter(
       (r) => r.user_id === userId || (r.email && r.email.toLowerCase() === userEmail.toLowerCase())
     );
@@ -43,7 +43,7 @@ router.get('/my', requireAuth, (req, res) => {
 /**
  * POST /api/reviews - (Protected) Post a new review
  */
-router.post('/', requireAuth, (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
     const rating = parseInt(req.body.rating, 10);
     const comment = (req.body.comment || '').trim();
@@ -73,7 +73,7 @@ router.post('/', requireAuth, (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    addReview(newReview);
+    await addReview(newReview);
 
     return res.status(201).json({
       message: 'Review posted successfully! Thank you for the love ✨',

@@ -55,7 +55,7 @@ router.post('/', requireAuth, async (req, res) => {
     // 1. Check inventory and deduct stock using current catalog prices.
     let orderItems;
     try {
-      orderItems = verifyAndDeductStock(items);
+      orderItems = await verifyAndDeductStock(items);
     } catch (stockErr) {
       return res.status(stockErr.statusCode || 400).json({
         error: stockErr.message || 'One or more items in your cart are currently out of stock.'
@@ -93,7 +93,7 @@ router.post('/', requireAuth, async (req, res) => {
       created_at: new Date().toISOString()
     };
 
-    createOrder(newOrder);
+    await createOrder(newOrder);
 
     // 2. Send Order Confirmation Email asynchronously
     sendOrderConfirmationEmail(newOrder, newOrder.customer_email, newOrder.customer_name).catch((err) => {
@@ -113,11 +113,11 @@ router.post('/', requireAuth, async (req, res) => {
 /**
  * GET /api/orders - (Protected) Get customer's orders or all orders if Admin
  */
-router.get('/', requireAuth, (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
   try {
     const userId = req.user.sub || req.user.id;
     const isAdmin = req.user.isAdmin || req.user.role === 'admin';
-    const allOrders = readOrders();
+    const allOrders = await readOrders();
 
     if (isAdmin) {
       return res.status(200).json({ orders: allOrders });
@@ -137,9 +137,9 @@ router.get('/', requireAuth, (req, res) => {
 /**
  * GET /api/orders/:id - (Protected) Get specific order detail
  */
-router.get('/:id', requireAuth, (req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
   try {
-    const order = findOrderById(req.params.id);
+    const order = await findOrderById(req.params.id);
     if (!order) {
       return res.status(404).json({ error: 'Order not found.' });
     }
@@ -172,7 +172,7 @@ router.put('/:id/status', requireAuth, requireAdmin, async (req, res) => {
       });
     }
 
-    const existingOrder = findOrderById(orderId);
+    const existingOrder = await findOrderById(orderId);
     if (!existingOrder) {
       return res.status(404).json({ error: 'Order not found.' });
     }
@@ -184,10 +184,10 @@ router.put('/:id/status', requireAuth, requireAdmin, async (req, res) => {
 
     // If cancelled, restore inventory
     if (status.toLowerCase() === 'cancelled' && existingOrder.status !== 'cancelled') {
-      restoreStock(existingOrder.items || []);
+      await restoreStock(existingOrder.items || []);
     }
 
-    const updated = updateOrderStatus(orderId, status.toLowerCase(), extra);
+    const updated = await updateOrderStatus(orderId, status.toLowerCase(), extra);
 
     // Trigger status update email
     if (updated.customer_email) {

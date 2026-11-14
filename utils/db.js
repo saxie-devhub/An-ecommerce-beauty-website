@@ -1,42 +1,68 @@
-// utils/db.js - User Database Helper
+// User storage. DATABASE_URL enables PostgreSQL; without it, local JSON is used.
 const fs = require('fs');
 const path = require('path');
+const { isPostgresEnabled, listRecords, mutateRecords } = require('./pgStore');
 
 const DB_PATH = path.join(__dirname, '../users.json');
 
-// Initialize users file if it doesn't exist
-if (!fs.existsSync(DB_PATH)) {
-  fs.writeFileSync(DB_PATH, JSON.stringify([], null, 2));
-}
-
-function readUsers() {
+function readLocalUsers() {
   try {
-    const data = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(data || '[]');
-  } catch (err) {
+    return JSON.parse(fs.readFileSync(DB_PATH, 'utf8') || '[]');
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    console.error('Unable to read users:', error);
     return [];
   }
 }
 
-function writeUsers(users) {
+function writeLocalUsers(users) {
   fs.writeFileSync(DB_PATH, JSON.stringify(users, null, 2));
 }
 
-function findUserByEmail(email) {
+async function readUsers() {
+  return isPostgresEnabled() ? listRecords('users') : readLocalUsers();
+}
+
+async function writeUsers(users) {
+  if (isPostgresEnabled()) {
+    return mutateRecords('users', (records) => records.splice(0, records.length, ...users));
+  }
+  writeLocalUsers(users);
+}
+
+async function findUserByEmail(email) {
   if (!email) return null;
-  const users = readUsers();
-  return users.find((user) => (user.email || '').toLowerCase() === email.toLowerCase().trim());
+  const users = await readUsers();
+  return users.find((user) => (user.email || '').toLowerCase() === email.toLowerCase().trim()) || null;
 }
 
-function findUserById(id) {
+async function findUserById(id) {
   if (!id) return null;
-  const users = readUsers();
-  return users.find((user) => String(user.id) === String(id));
+  const users = await readUsers();
+  return users.find((user) => String(user.id) === String(id)) || null;
 }
 
-function createUser(user) {
-  const users = readUsers();
-  // If first user, make admin automatically for convenience
+async function createUser(user) {
+  if (isPostgresEnabled()) {
+    return mutateRecords('users', (users) => {
+      if (users.some((item) => (item.email || '').toLowerCase() === user.email.toLowerCase())) {
+        const error = new Error('An account with this email already exists.');
+        error.code = 'USER_EXISTS';
+        throw error;
+      }
+      if (users.length === 0) {
+        user.role = 'admin';
+        user.is_admin = 1;
+      } else if (!user.role) {
+        user.role = 'customer';
+        user.is_admin = 0;
+      }
+      users.push(user);
+      return user;
+    });
+  }
+
+  const users = readLocalUsers();
   if (users.length === 0) {
     user.role = 'admin';
     user.is_admin = 1;
@@ -45,33 +71,25 @@ function createUser(user) {
     user.is_admin = 0;
   }
   users.push(user);
-  writeUsers(users);
+  writeLocalUsers(users);
   return user;
 }
 
-function updateUserProfile(id, updates) {
-  const users = readUsers();
-  const index = users.findIndex((u) => String(u.id) === String(id));
-  if (index === -1) return null;
-
-  // Protect sensitive fields from accidental overwrite
+async function updateUserProfile(id, updates) {
   delete updates.passwordHash;
   delete updates.id;
-
-  users[index] = {
-    ...users[index],
-    ...updates,
-    updatedAt: new Date().toISOString()
+  const update = (users) => {
+    const index = users.findIndex((user) => String(user.id) === String(id));
+    if (index === -1) return null;
+    users[index] = { ...users[index], ...updates, updatedAt: new Date().toISOString() };
+    return users[index];
   };
-  writeUsers(users);
-  return users[index];
+
+  if (isPostgresEnabled()) return mutateRecords('users', update);
+  const users = readLocalUsers();
+  const result = update(users);
+  if (result) writeLocalUsers(users);
+  return result;
 }
 
-module.exports = {
-  readUsers,
-  writeUsers,
-  findUserByEmail,
-  findUserById,
-  createUser,
-  updateUserProfile
-};
+module.exports = { readUsers, writeUsers, findUserByEmail, findUserById, createUser, updateUserProfile };

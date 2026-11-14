@@ -90,51 +90,56 @@ router.post('/pay', requireAuth, async (req, res) => {
     const { order_id: orderId, phone_number: phoneNumber } = req.body || {};
     const phone = formatKenyanPhone(phoneNumber);
     if (!orderId || !phone) return res.status(400).json({ error: 'Provide an order ID and a valid Kenyan Safaricom number.' });
-    order = findOrderById(orderId);
+    order = await findOrderById(orderId);
     if (!order) return res.status(404).json({ error: 'Order not found.' });
     if (order.user_id !== req.user.sub && req.user.role !== 'admin' && !req.user.isAdmin) return res.status(403).json({ error: 'You cannot pay for this order.' });
     if (String(order.payment_status).toLowerCase() === 'paid') return res.status(400).json({ error: 'This order is already paid.' });
 
     const stk = await requestStkPush({ phone, amount: order.total, reference: order.order_number || order.id });
-    createPayment({ id: crypto.randomUUID(), orderId: order.id, checkoutRequestId: stk.CheckoutRequestID, merchantRequestId: stk.MerchantRequestID || '', phone, amount: order.total, status: 'pending', createdAt: new Date().toISOString() });
-    updateOrder(order.id, { payment_status: 'pending', mpesa_checkout_request_id: stk.CheckoutRequestID, customer_phone: phone });
+    await createPayment({ id: crypto.randomUUID(), orderId: order.id, checkoutRequestId: stk.CheckoutRequestID, merchantRequestId: stk.MerchantRequestID || '', phone, amount: order.total, status: 'pending', createdAt: new Date().toISOString() });
+    await updateOrder(order.id, { payment_status: 'pending', mpesa_checkout_request_id: stk.CheckoutRequestID, customer_phone: phone });
     return res.json({ success: true, checkout_request_id: stk.CheckoutRequestID, message: stk.CustomerMessage || 'STK prompt sent. Complete payment on your phone.' });
   } catch (error) {
     // The order endpoint reserves stock before payment starts. If an STK prompt cannot
     // be created, release that reservation so an unavailable payment service cannot
     // make products appear sold out.
     if (order && String(order.payment_status).toLowerCase() === 'pending' && !order.mpesa_checkout_request_id) {
-      restoreStock(order.items || []);
-      updateOrder(order.id, { payment_status: 'failed', status: 'cancelled' });
+      await restoreStock(order.items || []);
+      await updateOrder(order.id, { payment_status: 'failed', status: 'cancelled' });
     }
     console.error('M-Pesa STK request failed:', error.message, error.cause?.cause?.code || error.cause?.code || '');
     return res.status(error.statusCode || 500).json({ error: error.message || 'Unable to start M-Pesa payment.' });
   }
 });
 
-router.post('/callback', (req, res) => {
+router.post('/callback', async (req, res) => {
+  try {
   const callback = req.body?.Body?.stkCallback;
   const checkoutRequestId = callback?.CheckoutRequestID;
-  const payment = checkoutRequestId && findPayment(checkoutRequestId);
+  const payment = checkoutRequestId && await findPayment(checkoutRequestId);
   if (!payment) return res.json({ ResultCode: 0, ResultDesc: 'Accepted' });
 
   const successful = Number(callback.ResultCode) === 0;
   const metadata = callback.CallbackMetadata?.Item || [];
   const receipt = metadata.find((item) => item.Name === 'MpesaReceiptNumber')?.Value || '';
-  updatePayment(checkoutRequestId, { status: successful ? 'success' : 'failed', receiptNumber: receipt, resultDesc: callback.ResultDesc || '' });
+  await updatePayment(checkoutRequestId, { status: successful ? 'success' : 'failed', receiptNumber: receipt, resultDesc: callback.ResultDesc || '' });
   // A declined payment must release inventory. Guard against duplicate callbacks.
   if (!successful && payment.status === 'pending') {
-    const failedOrder = findOrderById(payment.orderId);
-    if (failedOrder) restoreStock(failedOrder.items || []);
+    const failedOrder = await findOrderById(payment.orderId);
+    if (failedOrder) await restoreStock(failedOrder.items || []);
   }
-  updateOrder(payment.orderId, { payment_status: successful ? 'paid' : 'failed', status: successful ? 'processing' : 'pending', mpesa_receipt_number: receipt });
+  await updateOrder(payment.orderId, { payment_status: successful ? 'paid' : 'failed', status: successful ? 'processing' : 'pending', mpesa_receipt_number: receipt });
   return res.json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  } catch (error) {
+    console.error('M-Pesa callback persistence error:', error);
+    return res.status(500).json({ ResultCode: 1, ResultDesc: 'Callback could not be saved.' });
+  }
 });
 
-router.get('/status/:checkoutRequestId', requireAuth, (req, res) => {
-  const payment = findPayment(req.params.checkoutRequestId);
+router.get('/status/:checkoutRequestId', requireAuth, async (req, res) => {
+  const payment = await findPayment(req.params.checkoutRequestId);
   if (!payment) return res.status(404).json({ error: 'Payment not found.' });
-  const order = findOrderById(payment.orderId);
+  const order = await findOrderById(payment.orderId);
   if (order?.user_id !== req.user.sub && req.user.role !== 'admin' && !req.user.isAdmin) return res.status(403).json({ error: 'Access denied.' });
   return res.json({ status: payment.status, receipt_number: payment.receiptNumber || '', result_desc: payment.resultDesc || '' });
 });

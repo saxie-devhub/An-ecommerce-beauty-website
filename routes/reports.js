@@ -8,9 +8,9 @@ const router = express.Router();
 /**
  * GET /api/reports/sales - (Admin Only) Aggregate sales statistics
  */
-router.get('/sales', requireAuth, requireAdmin, (req, res) => {
+router.get('/sales', requireAuth, requireAdmin, async (req, res) => {
   try {
-    const orders = readOrders();
+    const orders = await readOrders();
 
     const totalOrders = orders.length;
     const completedOrders = orders.filter((o) => o.status === 'delivered').length;
@@ -60,9 +60,9 @@ router.get('/sales', requireAuth, requireAdmin, (req, res) => {
 /**
  * GET /api/reports/export-csv - (Admin Only) Export sales data as CSV
  */
-router.get('/export-csv', requireAuth, requireAdmin, (req, res) => {
+router.get('/export-csv', requireAuth, requireAdmin, async (req, res) => {
   try {
-    const orders = readOrders();
+    const orders = await readOrders();
 
     // CSV Header
     const headers = [
